@@ -90,20 +90,22 @@ router.get("/country/:gt_gnp/:lt_gnp", (req, res) => {
   const gt_gnp = req.query.gt_gnp;
   let lt_gnp = req.query.lt_gnp;
 
-  if (!lt_gnp) {
-    lt_gnp = "/";
+    if (!gt_gnp) {
+      const mysql1 = "SELECT * FROM country WHERE GNP >= ?"
+      mysql.execute(mysql1, [gt_gnp], error, result, f)
+    } else {
     const citySelectWhereGNP =
       "SELECT * FROM country WHERE GNP between  >=? and  <=?";
 
     mysql.execute(
       citySelectWhereGNP,
-      [gt_gnp, lt_gnp],
+      [lt_gnp,gt_gnp],
       (error, result, fields) => {
         res.json(result);
       }
     );
-  }
-});
+  
+}});
 
 router.get("/:name", (req, res) => {
   const ct_name = req.params.name;
