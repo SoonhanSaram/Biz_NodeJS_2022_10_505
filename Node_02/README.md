@@ -36,3 +36,10 @@
   const app = express()
   export default app
   ```
+
+  #### router module 분리하기
+  * router 모듈은 express에서 여러가지 Request를 ㅊ퍼리하기 위한 모듈
+  * router 모듈은 app.js에서 선언을 한다
+  * router 모듈을 모두 app.js 에서 선언을 하게되면 app.js가 너무 복잡한 코드가 된다
+  * router 모듈을 분리하여 각 역할별로 처리하도록 한다
+  1. ```routes``` 폴더 생성
