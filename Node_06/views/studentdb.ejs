@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <header>
+      <h1></h1>
+      <p></p>
+    </header>
+    <form method="POST">
+      <label>이름</label>
+      <input name="st_name" />
+    </form>
+    <DIV>
+      <a href="/student/data"><button>전체보기</button></a>
+      <a href="/student/data/add"><button>추가화면</button></a>
+    </DIV>
+    <section>
+      <table>
+        <tr>
+          <th>학번</th>
+          <th>이름</th>
+          <th>학과</th>
+          <th>학년</th>
+          <th>전화번호</th>
+          <th>주소</th>
+        </tr>
+        <tbody>
+          <% student.forEach((st)=> {%>
+          <tr>
+            <td><%= st.st_num %></td>
+            <td><%= st.st_name %></td>
+            <td><%= st.st_dept %></td>
+            <td><%= st.st_grade %></td>
+            <td><%= st.st_tel %></td>
+            <td><%= st.st_addr %></td>
+          </tr>
+          <%}) %>
+        </tbody>
+      </table>
+    </section>
+  </body>
+</html>
