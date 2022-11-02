@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      h1,
+      form,
+      table {
+        width: 80%;
+        margin: 10px auto;
+      }
+
+      td,
+      th {
+        border-top: 1px solid #bbb;
+        border-bottom: 1px solid #bbb;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>반갑습니다</h1>
+    <form method="POST">
+      <label>국가 이름</label>
+      <input name="C_name" />
+    </form>
+    <table>
+      <thead>
+        <tr>
+          <th>SEQ</th>
+          <th>code</th>
+          <th>국가</th>
+          <th>gnp</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% countrys.forEach((country, index) => { %>
+        <tr>
+          <td><%= index + 1 %></td>
+          <td><%= country.Code %></td>
+          <td><%= country.Name %></td>
+          <td><%= country.GNP %></td>
+        </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  </body>
+</html>
