@@ -16,32 +16,25 @@ router.post("/data", (req, res) => {
   });
 });
 
-router.post("/data/add", (req, res) => {
-  const num = req.body.st_num;
-  const name = req.body.st_name;
-  const dept = req.body.st_dept;
-  const grade = req.body.st_grade;
-  const tel = req.body.st_tel;
-  const addr = req.body.st_addr;
+router.post("/data/add", (req, res) => {  
+  const s_num = req.body.st_num
+  const s_name = req.body.st_name
+  const s_dept = req.body.st_dept
+  const s_grade = req.body.st_grade
+  const s_tel = req.body.st_tel
+  const s_addr = req.body.st_addr
+  
+  
+  const stinfos  =[s_num, s_name, s_dept, s_grade, s_tel, s_addr]
+  
+    
+  console.log(stinfos)
+  
+  
+  const sql = "INSERT into tbl_student (st_num, st_name, st_dept, st_grade, st_tel, st_addr) values ?";
 
-  if (!st_num.value) {
-    alert("학번을 반드시 입력하세요");
-    st_num.value = "";
-    return false;
-  } else if (!st_name.value) {
-    alert("이름을 반드시 입력하세요");
-    st_name.value = "";
-    return false;
-  } else if (4 < st_grade.value || st_grade.valuse > 1) {
-    alert("학년은 1~4사이에서 선택하세요");
-    st_grade.value = "";
-    return false;
-  }
-  stInfos = { num, name, dept, grade, tel, addr };
-  const sql =
-    "INSERT tbl_student(st_num, st_name, st_dept, st_grade, st_tel, st_addr) values (?)";
-  mysql.query(sql, [stInfos], (err, student, f) => {
-    res.render("studentdb", "/");
+  mysql.execute(sql, [stinfos], (err, result, f) => {
+    console.log("완료")
   });
 });
 

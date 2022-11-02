@@ -2,14 +2,14 @@
   "name": "node_06",
   "version": "1.0.0",
   "description": "- NodeJS + Express + MySQL + ejs를 연동한 DB프로젝트\r - MySQL의 `schoolDB` Schema에 포함된 `tbl_student`의 데이터 전체를 SELECT하여 화면 Table로 보여주기",
-  "main": "./www.js",
+  "main": "./bin/www.js",
   "type": "module",
   "bin": {
     "node_06": "bin/app.js"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "npm ./bin/www.js"
+    "start": "npm .bin/www.js"
   },
   "keywords": [],
   "author": "kyengmin911@naver.com",
