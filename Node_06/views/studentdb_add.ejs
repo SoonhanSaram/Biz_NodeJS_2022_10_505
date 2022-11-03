@@ -15,32 +15,34 @@
       <a href="/student/data"><button>전체보기</button></a>
       <a href="/student/list"><button>이전화면</button></a>
     </DIV>
-    
-    
-    <form method="post">
-      <input name="st_num" placeholder="학번" type="text" />      
-      <input name="st_name" placeholder="이름" type="text" />      
-      <input name="st_dept" placeholder="학과" type="text" />      
-      <input name="st_grade" placeholder="학년" type="number" />         
-      <input name="st_tel" placeholder="전화번호" type="text" />
-      <input name="st_addr" placeholder="주소" type="text" />    
-      
-      <% check = function() {if(!st_num.value) {%>
-        <div>"학번을입력해주세요"</div>
-        <%} if (!st_name.value) {%>
-        <div>"이름을입력해주세요"</div>
-        <%} if (st_grade.value > 4 || 1 > st_grade.value) {%>
-        <div>"학년은 1~4 사이 숫자로 입력해주세요"</div>             
-        <% }}%>
-      
-        <button id="btn" onclick="check" type="submit">추가</button>
 
-      
-      
-      
-      
-      
+    <form class="input" method="post">
+      <input name="st_num" placeholder="학번" type="text" />
+      <input name="st_name" placeholder="이름" type="text" />
+      <input name="st_dept" placeholder="학과" type="text" />
+      <input name="st_grade" placeholder="학년" type="number" />
+      <input name="st_tel" placeholder="전화번호" type="text" />
+      <input name="st_addr" placeholder="주소" type="text" />
+
+      <% check = function() {if(!st_num.value) {%>
+      <div>"학번을입력해주세요"</div>
+      <%} if (!st_name.value) {%>
+      <div>"이름을입력해주세요"</div>
+      <%} if (st_grade.value > 4 || 1 > st_grade.value) {%>
+      <div>"학년은 1~4 사이 숫자로 입력해주세요"</div>
+      <% }}%>
+
+      <button id="btn" onclick="check" type="submit">추가</button>
     </form>
-    
   </body>
+  <script>
+    const inputs = document.querySelectorAll("input");
+    const btnAdd = document.querySelector("btn");
+    const form = document.querySelector("form.input");
+
+    const cheek = () => {
+      if (!inputs[0].value) { 
+      }
+    };
+  </script>
 </html>

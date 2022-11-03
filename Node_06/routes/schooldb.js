@@ -16,25 +16,24 @@ router.post("/data", (req, res) => {
   });
 });
 
-router.post("/data/add", (req, res) => {  
-  const s_num = req.body.st_num
-  const s_name = req.body.st_name
-  const s_dept = req.body.st_dept
-  const s_grade = req.body.st_grade
-  const s_tel = req.body.st_tel
-  const s_addr = req.body.st_addr
-  
-  
-  const stinfos  =[s_num, s_name, s_dept, s_grade, s_tel, s_addr]
-  
-    
-  console.log(stinfos)
-  
-  
-  const sql = "INSERT into tbl_student (st_num, st_name, st_dept, st_grade, st_tel, st_addr) values ?";
+router.post("/data/add", (req, res) => {
+  const s_num = req.body.st_num;
+  const s_name = req.body.st_name;
+  const s_dept = req.body.st_dept;
+  const s_grade = req.body.st_grade;
+  const s_tel = req.body.st_tel;
+  const s_addr = req.body.st_addr;
+
+  const stinfos = [s_num, s_name, s_dept, s_grade, s_tel, s_addr];
+
+
+  console.log(stinfos);
+
+  const sql =
+    "INSERT into tbl_student (st_num, st_name, st_dept, st_grade, st_tel, st_addr) values ?";
 
   mysql.execute(sql, [stinfos], (err, result, f) => {
-    console.log("완료")
+    console.log("완료");
   });
 });
 
