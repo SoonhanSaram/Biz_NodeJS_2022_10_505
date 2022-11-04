@@ -36,7 +36,7 @@ router.post("/list", (req, res) => {
 router.get("/:na/get", (req, res) => {
   const countryname = req.params.na;
 
-  const countrySelect = "SELECT name from country where name = ? ";
+  const countrySelect = " SELECT name from country where name = ? ";
 
   mysql.execute(countrySelect, [countryname], (err, result, f) => {
     // res.json(result);
