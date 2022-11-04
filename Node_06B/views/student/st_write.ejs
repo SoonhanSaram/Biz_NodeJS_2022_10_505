@@ -3,28 +3,39 @@
     <legend>학생정보</legend>
     <div>
       <label for="st_num">학번</label>
-      <input name="st_num" id="st_num" />
+      <input name="st_num" id="st_num" value="<%=student.st_num%>" />
     </div>
 
     <div>
       <label for="st_name">이름</label>
-      <input name="st_name" id="st_name" />
+      <input name="st_name" id="st_name" value="<%=student.st_name%>" />
     </div>
     <div>
       <label for="st_dept">학과</label>
-      <input name="st_dept" id="st_dept" />
+      <input name="st_dept" id="st_dept" value="<%=student.st_dept%>" />
     </div>
     <div>
       <label for="st_grade">학년</label>
-      <input type="number" name="st_grade" id="st_grade" />
+      <input
+        type="number"
+        name="st_grade"
+        id="st_grade"
+        value="<%=
+      student.st_grade%>"
+      />
     </div>
     <div>
       <label for="st_tel">전화</label>
-      <input type="phone" name="st_tel" id="st_tel" />
+      <input
+        type="phone"
+        name="st_tel"
+        id="st_tel"
+        value="<%=student.st_tel%>"
+      />
     </div>
     <div>
       <label for="st_addr">주소</label>
-      <input name="st_addr" id="st_addr" />
+      <input name="st_addr" id="st_addr" value="<%=student.st_addr%>" />
     </div>
     <div>
       <label></label>
@@ -32,3 +43,19 @@
     </div>
   </fieldset>
 </form>
+<script>
+  const st_num = `<%- student.st_num %>`;
+  if (st_num) {
+    const numInput = document.querySelector("input[name=`st_num`]");
+    numInput.setAttribute("readonly", "redonlsy");
+    // numInput.value = st_num;
+  }
+
+  const student = JSON.parse(`<%- JSON.stringify(student) %>`);
+  console.log(student);
+  const stInput = document.querySelectorAll("input");
+  const stItems = Object.keys(student);
+  for (let i = 0; i < stItems.length; i++) {
+    stInput[stItems[i]].value = student[stItems[i]];
+  }
+</script>

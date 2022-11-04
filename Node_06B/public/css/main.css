@@ -64,6 +64,26 @@ footer {
   text-align: center;
   padding: 1em;
 }
+
+table {
+  border-collapse: collapse;
+  width: 95%;
+}
+table.student td,
+table.student th {
+  text-align: left;
+  padding: 5px 8px;
+  border-top: 1px solid black;
+  border-bottom: 1px solid black;
+  /* 
+  table의 Column에 표현되는 textContent가 너무 길 경우 
+  말줄임표(...)을 보이도록 하는 설정*/
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  table-layout: fixed;
+  cursor: pointer;
+}
+
 section.main {
   flex: 1;
   overflow: auto;
@@ -92,4 +112,19 @@ input:focus {
 
 input:hover {
   background-color: #eee;
+}
+
+div.option {
+  display: flex;
+  width: 95%;
+}
+
+span.option_button {
+  cursor: pointer;
+  margin: 2px 10px 2px 2px;
+  color: rebeccapurple;
+}
+span.option_button:nth-of-type(1) {
+  margin-left: auto;
+  color: red;
 }

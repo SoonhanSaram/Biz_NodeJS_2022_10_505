@@ -8,11 +8,6 @@ section.main {
 .student {
   width: 95%;
   margin: 10px auto;
-  border: 1px solid #bbb;
-}
-/* student와 input class가 적용된 article */
-article.student.input {
-  text-align: center;
 }
 
 article.student.search form {
@@ -38,4 +33,69 @@ article.student.search form input {
   background-color: blueviolet;
   color: white;
   text-decoration: none;
+}
+
+table.student {
+  width: 90%;
+}
+
+article.student.detail {
+  width: 95%;
+  margin: 10px auto;
+}
+
+div.student.item {
+  display: flex;
+  margin: 10px auto;
+  justify-content: center;
+}
+div.student.item div {
+  border: 1px solid #777;
+  margin: 5px;
+  padding: 8px;
+}
+
+div.student.item div:nth-of-type(1) {
+  width: 30%;
+  background-color: #aaa;
+  font-weight: 900;
+  text-shadow: 1px 1px 1px white;
+  text-align: right;
+}
+div.student.item div:nth-of-type(2) {
+  width: 60%;
+  text-align: left;
+}
+
+div.student.btn_box {
+  text-align: center;
+}
+
+div.student.btn_box button {
+  padding: 12px 2em;
+  margin: 5px;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  transition: 0.5s;
+  border-radius: 5px;
+}
+
+div.student.btn_box button.st_update {
+  background-color: blue;
+  color: white;
+}
+div.student.btn_box button.st_delete {
+  background-color: orange;
+  color: white;
+}
+div.student.btn_box button.st_list {
+  background-color: green;
+  color: white;
+}
+
+div.student.btn_box button:hover {
+  background-color: #bbb;
+  color: white;
+  /* !important 강제 적용 tag */
 }

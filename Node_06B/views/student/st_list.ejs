@@ -13,7 +13,7 @@
 
     <tbody>
       <% students.forEach((st)=> {%>
-      <tr>
+      <tr data-st_num="<%- st.st_num %>">
         <td><%= st.st_num %></td>
         <td><%= st.st_name %></td>
         <td><%= st.st_dept %></td>
