@@ -1,0 +1,100 @@
+* {
+    box-sizing: border-box;
+    margin:0;
+    padding:0;
+}
+
+html {
+    width:100vw;
+    height:100vh;
+}
+
+body {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+header.main {
+    width: 100%;
+    height: 15%;
+    text-align: center;
+    padding :1.2em;
+    color:white;
+    text-shadow: 1px 1px 1px black;
+    background-attachment: fixed;
+    /* background-image: url("/images/header_00_1920.jpg");
+    background-image: url("/images/header_01_1920.jpg");
+    background-image: url("/images/header_02_1920.jpg");
+    background-position: center;
+    background-size:100%; */
+    background : url("/images/header_00_1920.jpg") no-repeat center/cover;
+    animation : backimg 6s;
+    animation-delay : 2s;
+    animation-timing-function: ease-in-out;
+    animation-iteration-count: infinite;
+    -webkit-animation-timing-function: ease-in-out;
+}
+@keyframes backimg {
+    0% {
+        background-image: url("/images/header_00_1920.jpg");
+    }
+    50% { background-image: url("/images/header_01_1920.jpg");}
+    100% {
+        background-image: url("/images/header_02_1920.jpg");
+    }
+    0% {
+        background-image: url("/images/header_00_1920.jpg");
+    }
+}
+
+section.main {
+    flex:1;
+}
+
+footer {
+    text-align: center;
+    font-weight: lighter;
+}
+nav.nav ul {
+    display: flex;
+    margin :0;
+    padding:0;
+    background-color: #444;
+    overflow: hidden;
+}
+
+li.navmenu {
+    margin : 8px, 10px 8px 10px;
+    padding: 0.5em;
+    list-style: none;
+    cursor: pointer;
+    transition: 1s
+}
+li.navmenu:active{
+    background-color: green;
+    color:white
+}
+li.navmenu:hover {
+    background-color: white;
+    color: black;
+    border-left : 2px solid green;
+    border-right : 2px solid green;
+    border-radius : 15%;
+}
+li.navmenu:nth-of-type(4){
+    margin-left : auto;
+}
+
+li.navmenu:nth-of-type(1):hover:not(.active) {
+    background-color: green;
+    
+}
+.active {
+    background-color: #04AA6D;
+  }
+.swiper {
+    width: 100%;
+    height: 100px;
+  }

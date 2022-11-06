@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang=ko>
+<head>
+<%- include ("includes/head.ejs") %>
+</head>
+<body>
+    <%- include ("includes/header.ejs")%>
+    <%- include ("includes/eventslide.ejs") %>
+    <section class="main">
+    <article>
+      <%- include ("navmenu/login.ejs")%>        
+    </article>   
+  </section>
+  <%- include ("includes/footer.ejs") %>
+</body>
+<script>
+    const swiper = new Swiper('.swiper', {
+    // Optional parameters
+    
+    loop: true,
+  
+    // If we need pagination
+    pagination: {
+      el: '.swiper-pagination',
+    },
+  
+    // Navigation arrows
+    navigation: {
+      nextEl: '.swiper-button-next',
+      prevEl: '.swiper-button-prev',
+    },
+  
+    // And if we need scrollbar
+    scrollbar: {
+      el: '.swiper-scrollbar',
+    },
+  });
+</script>
+</html>
