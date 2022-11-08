@@ -1,0 +1,17 @@
+table.today input {
+  width: 80%;
+  padding: 4px;
+}
+
+button.today {
+  background-color: blue;
+  color: wheat;
+  outline: none;
+  border: none;
+  border-radius: 5px;
+  padding: 0.4em;
+}
+button.today:hover {
+  background-color: white;
+  color: black;
+}
