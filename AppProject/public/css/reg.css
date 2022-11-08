@@ -1,0 +1,9 @@
+form.membership {
+    width : 50%;
+    text-align: right;
+    
+}
+
+label.mebership, input {    
+    margin : 16px auto;
+}

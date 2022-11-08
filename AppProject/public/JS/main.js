@@ -19,14 +19,26 @@ const navClick = (tag) => {
       href = "/login"
       break
       case "회원가입" :
-      href = "/membership application"      
+      href = "/reg"      
     }
     document.location.href=href
   }
 }
+
 document.addEventListener("DOMContentLoaded", () => {
   const nav = document.querySelector("nav.nav")
   
   nav?.addEventListener("click", navClick)
-
+  
+  // const liContainer = document.querySelector("nav.nav")
+  // let lis = liContainer.querySelectorAll(".navmenu")
+  // for (let i = 0 ; i < lis.length ; i++) {
+  //   lis[i]?.addEventListener("click", () => {
+  //     let current = document.getElementsByClassName(" active")
+  //     current[0].className = current[0].className.replace(" active","")
+  //     this.className += " active"
+  //   })
+  // }
+  
 })
+
