@@ -53,11 +53,17 @@ header.main {
     background-image: url("/images/header_01_1920.jpg");
   }
 
+<<<<<<< HEAD
   180% {
     background-image: url("/images/header_02_1920.jpg")
 }
  200%{ background-image: url("/images/header_00_1920.jpg"}
 }
+=======
+  180% {background-image: url("/images/header_02_1920.jpg");}
+ 200% { background-image: url("/images/header_00_1920.jpg")}};
+
+>>>>>>> 46ba717b004a3244c1e271561fc797835deeae0e
 
 section.main {
   flex: 1;

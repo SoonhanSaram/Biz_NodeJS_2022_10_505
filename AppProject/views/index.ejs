@@ -7,8 +7,11 @@
     <%- include ("includes/header.ejs")%>
     <%- include ("includes/eventslide.ejs") %>
     <section class="main">
-    <article>
-      <%- include ("navmenu/login.ejs")%>        
+    <article>     
+      <% if(body == "reg")   {%> <%- include ("./navmenu/reg.ejs")%> <%}%>
+      <% if(body == "alarm") {%> <%- include ("./navmenu/alarm.ejs")%> <%}%>
+      <% if(body == "event") {%> <%- include ("./navmenu/event.ejs")%> <%}%>
+      <% if(body == "login") {%> <%- include ("./navmenu/login.ejs")%> <%}%>      
     </article>   
   </section>
   <%- include ("includes/footer.ejs") %>

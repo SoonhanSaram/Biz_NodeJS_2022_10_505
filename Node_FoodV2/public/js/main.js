@@ -52,7 +52,11 @@ const info = document.addEventListener("DOMContentLoaded", () => {
     }
     const ParentTR = target.closest("TR");
     for (let [index, value] of inputs.entries()) {
+<<<<<<< HEAD
       inputs.value = ParentTR.children().textContent;
+=======
+      inputs.value = ParentTR.children("TD").textContent;
+>>>>>>> 46ba717b004a3244c1e271561fc797835deeae0e
     }
   });
 });
