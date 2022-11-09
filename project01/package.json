@@ -1,16 +1,27 @@
 {
   "name": "project01",
-  "version": "0.0.0",
-  "private": true,
-  "type": "module",
-  "scripts": {
-    "start": "node ./bin/www"
+  "version": "1.0.0",
+  "main": "bin/www.js",
+  "type" :"module",
+  "bin": {
+    "project01": "bin/app.js"    
   },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start" : "node bin/www.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+
   "dependencies": {
-    "cookie-parser": "~1.4.6",
-    "debug": "~4.3.4",
-    "express": "~4.18.2",
-    "morgan": "~1.10.0",
-    "pug": "~3.0.2"
+    "cookie-parser": "^1.4.6",
+    "debug": "^4.3.4",
+    "express": "^4.18.2",
+    "morgan": "^1.10.0",
+    "mysql2": "^2.3.3",
+    "pug": "^3.0.2"
   }
 }

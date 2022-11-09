@@ -58,25 +58,40 @@ router.post("/", async (req, res) => {
    * ? arr3 = [1,2,3,4,5,9,8,7,6]
    */
 
-  const params = [...Object.values(req.body), ...Object.values(req.body)];
-
+  let params = []
+  const t_seq = req.body.t_seq
+  // params = [...Object.values(req.body), ...Object.values(req.body)];  
+  console.log(t_seq)
+  if (!t_date) {
+  try {
+    await mysqlconn.promise().execute(TD_Delete, t_seq)
+  } catch (err) {
+    if (err) {
+      res.write(err)
+      return res.end ("Delete 오류 발생")
+    }
+  }res.redirect("/"); 
+  } 
+  else {
   /**
    * MySQL의 TD_Insert_OR_Update을 사용하여
    * insert of update를 실행하려고 하면
    * parameter로 사용되는 배열을 두 번 나열해주어야한다.
    * mysql2 버그
    */
+  
   try {
     await mysqlconn.promise().execute(TD_Insert_OR_Update, params);
   } catch (err) {
     if (err) {
       res.write(err);
       return res.end("Inser or Update SQL 문제 발생");
-    }
-  }
-
-  res.redirect("/");
+    }res.redirect("/");
+  } }
 
   console.log("실행 완료");
 });
+
+
+
 export default router;

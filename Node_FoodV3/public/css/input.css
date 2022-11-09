@@ -30,6 +30,7 @@ button.today.update:before {
   content: "변경";
 }
 
+
 input[name="t_seq"] {
   display: none;
 }

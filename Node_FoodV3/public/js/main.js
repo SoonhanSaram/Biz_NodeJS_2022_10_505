@@ -2,8 +2,11 @@ const info = document.addEventListener("DOMContentLoaded", () => {
   const btnInput = document.querySelector("button.today.input");
   const btnReset = document.querySelector("button.today.reset");
   const infos = document.querySelector("table.today");
-  const tform = document.querySelector("form.today");
-
+  const formTr = document.querySelector("form.today tr");
+  const btnDelete = document.querySelector("button.today.delete")
+  window.oncontextmenu = function () {
+    return false;
+};
   btnInput?.addEventListener("click", (tag) => {
     const updateTag = tag.currentTarget;
 
@@ -46,8 +49,26 @@ const info = document.addEventListener("DOMContentLoaded", () => {
       btnInput.classList.add("update");
     }
   });
+  infos?.addEventListener("contextmenu", (tag) => {
+    const target = tag.target;
+    alert("해당 정보 삭제를 원하시면 삭제를 눌러주세요")
 
+    if (target.tagName === "TD") {
+      const pTR = target.closest("TR");
+      const t_seq = pTR.dataset.seq;            
+      document.querySelector("input[name='t_seq']").value = t_seq;
+    }
+  });
   btnReset?.addEventListener("click", () => {
     btnInput.classList.remove("update");
   });
+  btnDelete?.addEventListener("click", () => {
+    document.querySelector("form.today").submit()
+  })
+
+  // formTr?.addEventListener("mousedown", (tag) => {
+  //   const target = tag.target
+  //   if (target.tagName === "TD") {
+  //   alert("클릭되었습니다.")}
+  // })
 });
