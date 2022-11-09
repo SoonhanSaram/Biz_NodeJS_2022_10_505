@@ -1,0 +1,35 @@
+table.today input {
+  width: 80%;
+  padding: 4px;
+}
+
+button.today {
+  background-color: blue;
+  color: wheat;
+  outline: none;
+  border: none;
+  border-radius: 5px;
+  padding: 0.4em;
+  /* system 기본 font size와 1:1 */
+  font-size: 12px;
+}
+button.today:hover {
+  background-color: white;
+  color: black;
+}
+
+button.today.update {
+  background-color: green;
+  font-size: 0;
+}
+/* tag에 부착하는 가상 tag class 
+before, after tag
+*/
+button.today.update:before {
+  font-size: 12px;
+  content: "변경";
+}
+
+input[name="t_seq"] {
+  display: none;
+}

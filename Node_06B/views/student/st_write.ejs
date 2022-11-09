@@ -48,15 +48,10 @@
   if (st_num) {
     const numInput = document.querySelector("input[name=`st_num`]");
     numInput.setAttribute("readonly", "redonlsy");
-    // numInput.value = st_num;
+    numInput.value = st_num;
   }
 
-  const student = JSON.parse(`<%- JSON.stringify(student) %>`);
-  console.log(student);
+  const student = `<%- student %>`;
   const stInput = document.querySelectorAll("input");
-  const stItems = Object.keys(student);
-  for (let i = 0; i < stItems.length; i++) {
-
-    stInput[i].value = student[`${stItems[i]`];
-  }
+  const stItems = Object.key(student);
 </script>

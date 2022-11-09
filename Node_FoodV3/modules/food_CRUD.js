@@ -18,7 +18,7 @@ const TD_cal_list = `select * from tbl_todayv3 order by t_cal desc`;
 
 const TD_calsum_list = `select *, t_qty * t_cal as t_total from tbl_todayv3  order by (t_qty * t_cal) desc`;
 
-const TD_Insert_OR_Update = `insert into tbl_foodv3(t_seq, t_date, t_time, t_content, t_qty, t_cal) values (?,?,?,?,?,?)
+const TD_Insert_OR_Update = `insert into tbl_todayv3(t_seq, t_date, t_time, t_content, t_qty, t_cal) values (?,?,?,?,?,?)
 ON DUPLICATE KEY UPDATE t_seq = ?, t_date = ?, t_time = ?, t_content = ?, t_qty = ?, t_cal = ?`;
 export {
   TD_select_ALL,
