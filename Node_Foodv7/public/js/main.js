@@ -34,10 +34,15 @@ const info = document.addEventListener("DOMContentLoaded", () => {
 
   infos?.addEventListener("click", (tag) => {
     const target = tag.target;
+    const pTR = target.closest("TR");
+    const t_seq = pTR?.dataset?.seq;
 
+    if (target.tagName === "SPAN") {
+      if (confirm(`${t_seq}번 데이터를 삭제하겠습니까?`)) {
+        document.location.replace(`/delete/${t_seq}`);
+      }
+    }
     if (target.tagName === "TD") {
-      const pTR = target.closest("TR");
-      const t_seq = pTR.dataset.seq;
       const tds = pTR.childNodes;
       for ([index, td] of tds.entries()) {
         if (td?.title) {
@@ -56,13 +61,6 @@ const info = document.addEventListener("DOMContentLoaded", () => {
     if (target.tagName === "TD") {
       const pTR = target.closest("TR");
       const t_seq = pTR.dataset.seq;
-      // const tds = pTR.childNodes;
-      // for ([index, td] of tds.entries()) {
-      //   if (td?.title) {
-      //     const input = document.querySelector(`input[name=${td.title}]`);
-      //     input.value = td.textContent;
-      //   }
-      // }
       document.querySelector("input[name='t_seq']").value = t_seq;
     }
   });
@@ -72,10 +70,4 @@ const info = document.addEventListener("DOMContentLoaded", () => {
   btnDelete?.addEventListener("click", () => {
     document.querySelector("form.today").submit();
   });
-
-  // formTr?.addEventListener("mousedown", (tag) => {
-  //   const target = tag.target
-  //   if (target.tagName === "TD") {
-  //   alert("클릭되었습니다.")}
-  // })
 });
