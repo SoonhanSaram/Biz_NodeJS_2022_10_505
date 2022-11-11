@@ -1,0 +1,24 @@
+extends layout
+
+block content
+  table.list
+    thead  
+      tr.list 
+      th.list 고객ID
+      th.list 이름
+      th.list 전화번호
+      th.list 담당자명
+      th.list 담당자연락처
+      th.list 매출액합계(만원)
+    tbody
+      each customer in customers
+        tr(data-c_id=`${customer.c_id}`)
+          td.list(title="c_id")= customer.c_id
+          td.list(title="c_name")= customer.c_name
+          td.list(title="c_tel")= customer.c_tel
+          td.list(title="c_manager")= customer.c_manager 
+          td.list 담당자 연락처
+          td.list 매출합계(만원)
+        tr
+          form.manage 
+  button.goadd 거래처추가

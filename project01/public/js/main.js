@@ -10,10 +10,18 @@ console.log(lis)
 
 lis.forEach(e => {
   e.addEventListener("click", function(){
-    lis.forEach(nav=>nav.classList.remove("active"))
-
-    
+    lis.forEach(nav=>nav.classList.remove("active"))    
     this.classList.add("active")
   })
 })   
 });
+
+
+// lis.forEach(e => {
+// e.addEventListener("click", ()=>{
+//   lis.forEach(nav=>nav.classList.remove("active"))
+
+//   let target = e.currentTarget
+//   target.classList.add("active")
+// })
+// })

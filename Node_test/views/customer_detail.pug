@@ -1,0 +1,35 @@
+extends layout
+
+block content
+  form.detail(method="post")  
+    span ID
+    input(name="c_id"  placeholder="거래처 ID" value=`${customers.c_id}`)
+    span 전화번호
+    input(name="c_tel" placeholder="연락처" value=`${customers.c_tel}`)  
+    span 거래처명
+    input(name="c_name" placeholder="거래처 이름" value=`${customers.c_name}`) 
+    span 담당자명
+    input(name="c_manager" placeholder="담당자명" value=`${customers.c_manager}`)   
+    span 주소
+    input(name="c_addr" placeholder="주소" value=`${customers.c_addr}`) 
+    button(type="button" data-c_id=`${customers.c_id}`).modifying 정보수정
+    button(type="button" data-c_id=`${customers.c_id}`).eliminate 정보삭제
+  table.manage
+    thead  
+      tr 
+        th No.
+        th 거래일자
+        th 상품명
+        th 단가
+        th 수량
+        th 금액
+    tbody 
+      tr 
+        td 
+        td 
+        td 
+        td 
+        td 
+        td 
+  button.orderadd 주문추가
+
