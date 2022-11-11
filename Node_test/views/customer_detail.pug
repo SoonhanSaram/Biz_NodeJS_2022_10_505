@@ -1,0 +1,40 @@
+extends layout
+
+block content
+  table
+    each customer in customers
+      tc(data-c_id=`${customers.c_id}`) 
+        th ID
+        td(name="c_id"  placeholder="거래처 ID" )= customer.c_id
+        th 전화번호
+        td(name="c_tel" placeholder="연락처")= customer.c_tel
+      tc(data-c_id=`${customers.c_id}`)
+        th 거래처명
+        td(name="c_name" placeholder="거래처 이름")= customer.c_name
+        th 담당자명
+        td(name="c_manager" placeholder="담당자명")= customer.c_manager
+      tc 
+        th 주소
+        td(name="c_addr" placeholder="주소")= customer.c_addr
+      each customer in customers
+        button(type="button", data-c_id=`${customer.c_id}`).modifying 정보수정
+        button(type="subit", data-c_id=`${customer.c_id}`).delete 정보삭제
+    table.manage
+      thead  
+        tr 
+          th No.
+          th 거래일자
+          th 상품명
+          th 단가
+          th 수량
+          th 금액
+      tbody 
+        tr 
+          td 
+          td 
+          td 
+          td 
+          td 
+          td 
+    button.orderadd 주문추가
+
