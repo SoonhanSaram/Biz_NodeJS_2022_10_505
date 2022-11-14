@@ -2,22 +2,22 @@ extends layout
 
 block content
     form(method="post").manage 
-        div 
-            span 거래처ID 
-            input(name="c_id" placeholder="거래처 ID" value=`${customers.c_id}`) 
-        div 
-            span 거래처명
-            input(name="c_name" placeholder="거래처 이름" value=`${customers.c_name}`)
-        div 
-            span 전화번호
-            input(name="c_tel" placeholder="연락처" value=`${customers.c_tel}`)
-        div 
-            span 담당자명
-            input(name="c_manager" placeholder="담당자명" value=`${customers.c_manager}`)
-        div 
-            span 주소
-            input(name="c_addr" placeholder="주소" value=`${customers.c_addr}`)
-        div 
+        div.addinput 
+            span.plus 거래처ID 
+            input.plus(name="c_id" placeholder="거래처 ID" value=`${customers.c_id}`) 
+        div.addinput 
+            span.plus 거래처명
+            input.plus(name="c_name" placeholder="거래처 이름" value=`${customers.c_name}`)
+        div.addinput 
+            span.plus 전화번호
+            input.plus(name="c_tel" placeholder="연락처" value=`${customers.c_tel}`)
+        div.addinput 
+            span.plus 담당자명
+            input.plus(name="c_manager" placeholder="담당자명" value=`${customers.c_manager}`)
+        div.addinput 
+            span.plus 주소
+            input.plus(name="c_addr" placeholder="주소" value=`${customers.c_addr}`)
+        div.addinput                 
             button(type="submit").modify 수정
             button(type="button").reset 새로작성
             button(type="button").golist 리스트로

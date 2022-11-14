@@ -15,5 +15,24 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
+<<<<<<< HEAD
+lis.forEach(e => {
+  e.addEventListener("click", function(){
+    lis.forEach(nav=>nav.classList.remove("active"))    
+    this.classList.add("active")
+  })
+})   
+=======
   urls?.addEventListener("click", () => {});
+>>>>>>> 30ca33bd6435f7713db33ff00b3327f34dd07e5a
 });
+
+
+// lis.forEach(e => {
+// e.addEventListener("click", ()=>{
+//   lis.forEach(nav=>nav.classList.remove("active"))
+
+//   let target = e.currentTarget
+//   target.classList.add("active")
+// })
+// })
