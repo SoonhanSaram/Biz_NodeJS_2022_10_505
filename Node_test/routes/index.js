@@ -24,12 +24,6 @@ router.get("/modify/:c_id", async (req, res) => {
   const customers = await Customer.findAll({ where: { c_id: id } });
   console.log(customers);
 
-  // try {
-  //   await Customer.create(req.body);
-  //   console.log(Customer);
-  // } catch (err) {
-  //   await Customer.update(req.body, { where: { t_id: id } });
-  // }
   res.render("modifying", { customers: customers[0] });
 });
 router.get("/add", async (req, res, next) => {

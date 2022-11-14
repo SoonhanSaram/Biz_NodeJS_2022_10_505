@@ -1,0 +1,34 @@
+extends layout 
+
+block content 
+    form(method="POST").buyer.write
+        fieldset 
+            legend 거래처정보 등록
+            div
+                label(for="") 거래처코드
+                input(name="b_code" placeholder="거래처코드 입력" title="거래처코드")
+                div.buyer.code
+                    button(type="button").buyer.code_create 코드생성
+                    button(type="button").buyer.code_check 중복검사                
+            div
+                label(for="") 거래처명
+                input(name="b_title" placeholder="거래처명 입력" title="거래처명")
+            div
+                label(for="") 대표전화
+                input(name="b_tel" placeholder="대표전화 입력" title="대표전화")
+            div
+                label(for="") 대표자명
+                input(name="b_ced" placeholder="대표자명 입력" title="대표자명")
+            div
+                label(for="") 담당자명
+                input(name="b_manager" placeholder="담당자명 입력" title="담당자명")
+            div
+                label(for="") 담당자연락처
+                input(name="b_manager_tel" placeholder="담당자연락처 입력" title="담당자연락처")
+            div
+                label(for="") 주소 
+                input(name="b_post_addr" placeholder="주소 입력")
+            div.button.box
+                button(type="button").buyer.input 저장
+                button(type="button").buyer.list 리스트로
+                button(type="reset").buyer.reset 리셋

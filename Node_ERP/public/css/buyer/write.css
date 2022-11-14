@@ -1,0 +1,89 @@
+form.buyer.write {
+  width: 90%;
+  margin: 10px auto;
+}
+form.buyer.write fieldset {
+  border-radius: 10px;
+}
+form.buyer.write div {
+  width: 90%;
+  text-align: center;
+}
+form.buyer.write legend {
+  text-align: center;
+  padding: 10px;
+  font-weight: 900;
+}
+
+form.buyer.write div {
+  margin: 5px auto;
+  display: flex;
+}
+form.buyer.write label,
+form.buyer.write input {
+  padding: 8px;
+  margin: 3px;
+}
+
+form.buyer.write label {
+  flex: 1;
+  text-align: right;
+  color: rgb(231, 76, 60);
+  font-weight: bold;
+}
+form.buyer.write input {
+  flex: 3;
+  border-radius: 5px;
+  border: 1px solid #ddd;
+}
+form.buyer.write input[name="b_code"] {
+  flex: 2;
+}
+form.buyer.write div.buyer.code {
+  flex: 1;
+  display: flex;
+  justify-content: space-between;
+}
+div.buyer.code button {
+  flex: 1;
+  margin: 0 10px;
+  border: none;
+  outline: none;
+  border-radius: 5px;
+}
+div.buyer.code button:nth-of-type(1) {
+  background-color: greenyellow;
+  color: black;
+}
+div.buyer.code button:nth-of-type(2) {
+  background-color: hotpink;
+  color: white;
+}
+div.button.box {
+  justify-content: right;
+}
+div.button.box button {
+  margin: 12px 3px 12px 10px;
+}
+
+button.buyer.input {
+  background-color: deepskyblue;
+  color: white;
+  border: none;
+  outline: none;
+  padding: 0.5em;
+}
+button.buyer.list {
+  background-color: orange;
+  color: white;
+  border: none;
+  outline: none;
+  padding: 0.5em;
+}
+button.buyer.reset {
+  background-color: yellowgreen;
+  color: white;
+  border: none;
+  outline: none;
+  padding: 0.5em;
+}

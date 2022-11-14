@@ -1,0 +1,25 @@
+extends layout 
+
+block content 
+    table.buyer.list 
+        thead 
+            tr
+                td SEQ
+                td Code
+                td 이름
+                td 전화번호
+                td 담당자명
+                td 연락처
+                td 매출액합계(만원)
+        tbody
+            each buyer, index in buyers
+                tr
+                    td= index +1 
+                    td= buyer.b_code 
+                    td= buyer.b_title 
+                    td= buyer.b_tel
+                    td= buyer.b_manager 
+                    td= buyer.b_manager_tel 
+                    td 매출액합계 
+    div.button.box
+        button.buyer.insert 거래처추가
