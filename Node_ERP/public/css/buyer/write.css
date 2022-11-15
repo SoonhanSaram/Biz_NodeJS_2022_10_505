@@ -87,3 +87,9 @@ button.buyer.reset {
   outline: none;
   padding: 0.5em;
 }
+/* button 속성중에 disabled = 'disable'가 설정되었을 때 */
+button[disabled] {
+  background-color: beige !important;
+  color: #777 !important ;
+  cursor: not-allowed;
+}

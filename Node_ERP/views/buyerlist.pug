@@ -1,6 +1,8 @@
 extends layout 
 
 block content 
+    script(src="/js/buyer/list.js")
+    link(rel='stylesheet', href='/css/buyer/list.css')
     table.buyer.list 
         thead 
             tr
@@ -13,7 +15,7 @@ block content
                 td 매출액합계(만원)
         tbody
             each buyer, index in buyers
-                tr
+                tr(data-b_code=`${buyer.b_code}`)
                     td= index +1 
                     td= buyer.b_code 
                     td= buyer.b_title 
