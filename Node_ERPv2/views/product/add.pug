@@ -18,6 +18,7 @@ block content
             div
                 label(for="") 상품코드
                 input(name="p_code" placeholder="상품코드 입력" title="상품코드" value=products.p_code)
+                div.failure-message.hide 상품코드는 13자리입니다.
                 div.product.code
                     button(type="button").product.code_create 코드생성
                     button(type="button").product.code_check 중복검사                

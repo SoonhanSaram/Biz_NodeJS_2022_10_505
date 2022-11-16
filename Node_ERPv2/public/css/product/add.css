@@ -1,0 +1,8 @@
+.hide {
+    display: none;
+       
+} 
+.failure-message {color : red;
+    font-weight: 800; 
+    
+}

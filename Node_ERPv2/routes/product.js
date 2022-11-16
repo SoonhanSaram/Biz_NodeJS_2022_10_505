@@ -7,10 +7,11 @@ const router = express.Router();
 router.get("/", async (req, res) => {
   if (req.session.user) {
     const products = await Product.findAll();
-    return res.render("./product/list", { products: {} });
+    return res.render("./product/list", { products });
   }
   res.redirect("/users/login?error=LOGIN");
 });
+
 
 router.get("/detail/:p_code", async (req, res) => {
   const pcode = req.params.p_code;
@@ -20,22 +21,55 @@ router.get("/detail/:p_code", async (req, res) => {
   }
   res.redirect("/users/login?error=LOGIN");
 });
-router.get("/add", (req, res) => {
+router.get("/add", async (req, res) => {
+  
   if (req.session.user && req.session.user.User_role < 3) {
-    return res.render("./product/add", { products: {} });
+    
+    return res.render("./product/add", { products :{} });
+  }
+
+  res.redirect("/users/login?error=LOGIN");
+});
+
+router.get("/add/:p_code", async (req, res) => {
+  // const pcode = req.params.p_code
+  // if (req.session.user && req.session.user.User_role < 3) {
+  //   const products = await Product.findOne({where:{p_code: pcode}})
+    
+  //   return res.render("./product/add", {products} );
+  // }
+  const pcode = req.params.p_code;
+  if (req.session.user) {
+    const products = await Product.findOne({ where: { p_code: pcode } });
+    return res.render("./product/add", { products });
+  }
+
+  res.redirect("/users/login?error=LOGIN");
+});
+router.get("/delete/:p_code", async (req, res) => {
+  // const pcode = req.params.p_code
+  // if (req.session.user && req.session.user.User_role < 3) {
+  //   const products = await Product.findOne({where:{p_code: pcode}})
+    
+  //   return res.render("./product/add", {products} );
+  // }
+  const pcode = req.params.p_code;
+  if (req.session.user) {
+    Product.destroy({ where: { p_code: pcode } });
+    return res.redirect("/",);
   }
 
   res.redirect("/users/login?error=LOGIN");
 });
 
 router.post("/add", async (req, res) => {
-  if (!req.session.user || req.session.user.User_role < 3) {
+  if (!req.session.user || req.session.user.User_role > 3) {
     return res.redirect("/users/login?error=LOGIN");
   }
   const data = req.body;
   try {
     await Product.create(data);
-    res.redirect("/product");
+    res.redirect("/product", );
   } catch (err) {
     res.send("SQL 오류");
   }

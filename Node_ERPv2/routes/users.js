@@ -7,18 +7,21 @@ const router = express.Router();
 router.get("/login", function (req, res, next) {
   const error = req.query.error;
   res.render("users/login", { error });
-
+  
   req.session.save(() => {
     res.render("users/login");
   });
 });
 router.post("/login", async (req, res) => {
+  
   const { username, password } = req.body;
-
+  
   //DB로부터 username 데이터 조회하기
   const user = await Users.findByPk(username);
+  
   // user 정보가 조회되면
   if (user) {
+    
     // select된 데이터의 비밀번호값과 input에서 전달된 비밀번호가 맞는지 검사
 
     if (user.Password !== password) {

@@ -1,4 +1,4 @@
-extends layout 
+extends ../layout 
 
 block content
     link(rel='stylesheet', href='/css/product/detail.css')
@@ -27,7 +27,7 @@ block content
                 div= products.p_buyer
                 div 과세여부
                 div= products.p_tax
-        article(data-b_code=`${products.p_code}`).detail.button
-            button.buyer.update 수정 
-            button.buyer.delete 삭제
+        article(data-p_code=`${products.p_code}`).detail.button
+            button(type="button").product.update 수정 
+            button(type="button").product.delete 삭제
 
