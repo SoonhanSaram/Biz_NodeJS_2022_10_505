@@ -15,10 +15,14 @@ html
         li 결제관리
         li 거래처관리
         li 상품관리
-        li 로그인
+        if user 
+          //- li= user.nick_name으로 적어야하나 문자열과 합칠땐 #{}을 사용
+          //- li `${user.nick_name} 님` 가능
+          li #{user.nick_name}님 Page
+          li 로그아웃
+        else
+          li 로그인
     section.main
-
       block content
-
-      footer 
-        address Copy Right &copy; kyengmin911@naver.com
+    footer 
+      address Copy Right &copy; kyengmin911@naver.com

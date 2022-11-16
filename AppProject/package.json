@@ -1,0 +1,15 @@
+{
+  "name": "appproject",
+  "version": "1.0.0",
+  "description": "* 메인 UI, DB연동 설계",
+  "main": "index.js",
+  "bin": {
+    "appproject": "bin/app.js"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}

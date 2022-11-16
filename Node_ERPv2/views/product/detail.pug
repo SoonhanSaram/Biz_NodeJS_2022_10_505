@@ -1,0 +1,33 @@
+extends layout 
+
+block content
+    link(rel='stylesheet', href='/css/product/detail.css')
+    script(src="/js/product/detail.js")
+    article.detail.container
+        article.detail.info 
+            article.detail.col
+                div 상품Code
+                div= products.p_code       
+                div 상품명 
+                div= products.p_title        
+                div 대분류 
+                div= products.p_main_cat      
+                div 중분류
+                div= products.p_mid_cat     
+                div 소분류
+                div= products.p_sub_cat
+                div 제조사
+                div= products.P_industry
+                div 매입단가
+                div= products.p_iprice
+                div 판매단가
+                div= products.p_oprice
+            article.detail.addr 
+                div 주요매입처
+                div= products.p_buyer
+                div 과세여부
+                div= products.p_tax
+        article(data-b_code=`${products.p_code}`).detail.button
+            button.buyer.update 수정 
+            button.buyer.delete 삭제
+

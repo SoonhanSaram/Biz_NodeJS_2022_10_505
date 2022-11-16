@@ -1,0 +1,29 @@
+body {
+  margin: 0;
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+
+a {
+  color: #00b7ff;
+}
+
+div.flag {
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  background: #bbb;
+  clip-path: polygon(
+    0% 0%,
+    100% 0%,
+    100% 100%,
+    95% 100%,
+    75% 80%,
+    50% 100%,
+    25% 80%,
+    5% 100%,
+    0 100%
+  );
+  background: url(../images/IU.jpg) 50%, no-repeat;
+
+  background-size: cover;
+}

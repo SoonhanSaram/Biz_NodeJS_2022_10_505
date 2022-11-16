@@ -1,0 +1,52 @@
+extends ../layout 
+
+block content 
+    link(rel='stylesheet', href='/css/product/add.css') 
+    //- script.
+        /*buyer.b_code 데이터는 pug에서는 사용가능하지만 
+        link로 연결된 script파일에서는 접근이 불가능하다
+        그래서 script를 연결하기 전에
+        변수를 하나 선언하여 buyer.b_code값을 보관해둔다
+        이렇게 선언된 변수 bcode는 외부 link로 연결되는
+        script에서 사용이 가능
+        */    
+        //- const public_pcode = `#{products.p_code}`
+    script(src="/js/product/add.js") 
+    form(method="POST").product.write
+        fieldset 
+            legend 상품정보 등록
+            div
+                label(for="") 상품코드
+                input(name="p_code" placeholder="상품코드 입력" title="상품코드" value=products.p_code)
+                div.product.code
+                    button(type="button").product.code_create 코드생성
+                    button(type="button").product.code_check 중복검사                
+            div
+                label(for="") 상품명
+                input(name="p_title" placeholder="상품명 입력" title="상품명" value=products.p_title)
+            div
+                label(for="") 대분류
+                input(name="p_main_cat" placeholder="대분류 입력" title="대분류" value=products.p_main_cat)
+            div
+                label(for="") 중분류
+                input(name="p_mid_cat" placeholder="중분류 입력" title="중분류" value=products.p_mid_cat)
+            div
+                label(for="") 소분류
+                input(name="p_sub_cat" placeholder="소분류 입력" title="소분류" value=products.p_sub_cat)
+            div
+                label(for="") 제조사
+                input(name="p_industry" placeholder="제조사 입력" title="제조사" value=products.p_industry)
+            div
+                label(for="") 매입단가
+                input(name="p_iprice" placeholder="매입단가 입력" title="매입단가" value=products.p_iprice)
+            div
+                label(for="") 판매단가
+                input(name="p_oprice" placeholder="판매단가 입력" title="판매단가" value=products.p_oprice)
+            div 
+                label(for="") 과세여부                
+                input(name="p_tax" placeholder="과세여부 입력" title="과세여부" value=products.p_tax)                
+                span 과세 = 1 비과세 = 2로 표시
+            div.button.box
+                button(type="button").product.input 저장
+                button(type="button").product.list 리스트로
+                button(type="reset").product.reset 리셋

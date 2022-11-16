@@ -1,0 +1,24 @@
+extends ../layout
+
+block content 
+    script(src="js/product/product.js") 
+    table.product.list 
+        thead 
+            tr 
+                td 상품Code
+                td 상품명
+                td 대분류                
+                td 제조사
+                td 주요 매입처                              
+                td 판매단가
+        tbody 
+        each product in products
+            tr(data-p_code = `${product.p_code}`)
+                td= product.p_code 
+                td= product.p_title
+                td= product.p_main_cat                
+                td= product.p_industry
+                td= product.p_buyer               
+                td= product.p_oprice
+    div.product.button
+        button(type="button").product.add 상품추가

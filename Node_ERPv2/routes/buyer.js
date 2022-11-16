@@ -4,16 +4,25 @@ const buyer = DB.models.tbl_buyer;
 const router = express.Router();
 
 router.get("/", async (req, res) => {
-  const buyers = await buyer.findAll();
-
-  res.render("buyerlist", { buyers });
+  if (req.session.user) {
+    const buyers = await buyer.findAll();
+    return res.render("buyerlist", { buyers });
+  }
+  res.redirect("/users/login?error=LOGIN");
 });
 
 router.get("/insert", (req, res) => {
-  res.render("write", { buyer: {} });
+  if (req.session.user && req.session.user.User_role < 5) {
+    return res.render("write", { buyer: {} });
+  }
+  res.redirect("/users/login?error=ROLE");
 });
 
 router.post("/insert", async (req, res) => {
+  const user = req.session?.user;
+  if (!user || !user?.User_role || user?.User_role >= 3) {
+    return res.redirect("/users/login?error=ROLE");
+  }
   const data = req.body;
   console.log(data);
   try {
@@ -26,6 +35,10 @@ router.post("/insert", async (req, res) => {
 });
 router.get("/detail/:bcode", async (req, res) => {
   const bcode = req.params.bcode;
+  const user = req.session?.user;
+  if (!user) {
+    return res.redirect("/users/login?error=ROLE");
+  }
   /**
    * find()는 결과가 1개더라도 결과값이 배열이다
    * findOne()은 1개의 결과만 찾고 만약 결과가 여러개더라도
@@ -42,6 +55,10 @@ router.get("/detail/:bcode", async (req, res) => {
 
 router.get("/update/:bcode", async (req, res) => {
   const bcode = req.params.bcode;
+  const user = req.session?.user;
+  if (!user || !user?.User_role || user?.User_role >= 3) {
+    return res.redirect("/users/login?error=ROLE");
+  }
   try {
     const buyers = await buyer.findOne({ where: { b_code: bcode } });
     res.render("write", { buyer: buyers });
@@ -51,6 +68,10 @@ router.get("/update/:bcode", async (req, res) => {
 });
 
 router.post("/update/:bcode", async (req, res) => {
+  const user = req.session?.user;
+  if (!user || !user?.User_role || user?.User_role >= 3) {
+    return res.redirect("/users/login?error=ROLE");
+  }
   try {
     await buyer.update(req.body, { where: { b_code: req.body.b_code } });
     res.redirect(`/buyer/detail/${req.body.b_code}`);
@@ -59,6 +80,10 @@ router.post("/update/:bcode", async (req, res) => {
   }
 });
 router.get("/delete/:bcode", async (req, res) => {
+  const user = req.session?.user;
+  if (!user || !user?.User_role || user?.User_role >= 3) {
+    return res.redirect("/users/login?error=ROLE");
+  }
   try {
     await buyer.destroy({ where: { b_code: req.body.b_code } });
     res.redirect("/buyer");
