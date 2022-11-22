@@ -1,4 +1,42 @@
 extends layout
 
 block content
-  div.flag
+  link(rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.css")
+  
+  div.flag  
+    .poster.One
+      .swiper
+        .swiper-wrapper.one
+          .swiper-slide 11
+          .swiper-slide 22
+          .swiper-slide 33               
+    div.poster.Two
+      .swiper
+        .swiper-wrapper.two
+          .swiper-slide 11
+          .swiper-slide 22
+          .swiper-slide 33        
+  script.
+    const swiper = new Swiper('.swiper', {
+      // Optional parametersz
+      direction: 'horizontal',
+      loop: true,
+
+      // If we need pagination
+      pagination: {
+        el: '.swiper-pagination',
+      },
+
+      // Navigation arrows
+      navigation: {
+        nextEl: '.swiper-button-next',
+        prevEl: '.swiper-button-prev',
+      },
+
+      // And if we need scrollbar
+      scrollbar: {
+        el: '.swiper-scrollbar',
+      },
+    });
+
+  

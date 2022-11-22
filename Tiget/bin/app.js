@@ -20,7 +20,7 @@ import logger from 'morgan';
 import DB from '../models/index.js';
 
 // sample router modules
-import indexRouter from '../routes/index.js';
+import titleRouter from '../routes/title.js';
 import usersRouter from '../routes/users.js';
 
 // create express framework
@@ -46,7 +46,7 @@ app.use(cookieParser());
 app.use(express.static(path.join("public")));
 
 // router link enable
-app.use('/', indexRouter);
+app.use('/', titleRouter);
 app.use('/users', usersRouter);
 
 // catch 404 and forward to error handler

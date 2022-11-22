@@ -1,0 +1,45 @@
+extends layout 
+
+block content 
+    link(rel='stylesheet', href='/css/buyer/write.css') 
+    script.
+        /*buyer.b_code 데이터는 pug에서는 사용가능하지만 
+        link로 연결된 script파일에서는 접근이 불가능하다
+        그래서 script를 연결하기 전에
+        변수를 하나 선언하여 buyer.b_code값을 보관해둔다
+        이렇게 선언된 변수 bcode는 외부 link로 연결되는
+        script에서 사용이 가능
+        */    
+        const public_bcode = `#{buyer.b_code}`
+    script(src="/js/buyer/write.js") 
+    form(method="POST").buyer.write
+        fieldset 
+            legend 거래처정보 등록        
+            div
+                label(for="") 거래처코드
+                input(name="b_code" placeholder="거래처코드 입력" title="거래처코드" value=buyer.b_code)
+                div.buyer.code
+                    button(type="button").buyer.code_create 코드생성
+                    button(type="button").buyer.code_check 중복검사                
+            div
+                label(for="") 거래처명
+                input(name="b_title" placeholder="거래처명 입력" title="거래처명" value=buyer.b_title)
+            div
+                label(for="") 대표전화
+                input(name="b_tel" placeholder="대표전화 입력" title="대표전화" value=buyer.b_tel)
+            div
+                label(for="") 대표자명
+                input(name="b_ced" placeholder="대표자명 입력" title="대표자명" value=buyer.b_ced)
+            div
+                label(for="") 담당자명
+                input(name="b_manager" placeholder="담당자명 입력" title="담당자명" value=buyer.b_manager)
+            div
+                label(for="") 담당자연락처
+                input(name="b_manager_tel" placeholder="담당자연락처 입력" title="담당자연락처" value=buyer.b_manager_tel)
+            div
+                label(for="") 주소 
+                input(name="b_post_addr" placeholder="주소 입력" value=buyer.b_post_addr)
+            div.button.box
+                button(type="button").buyer.input 저장
+                button(type="button").buyer.list 리스트로
+                button(type="reset").buyer.reset 리셋

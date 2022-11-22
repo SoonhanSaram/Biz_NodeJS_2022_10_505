@@ -27,3 +27,8 @@ div.flag {
   background-position: 0, 0;
   background-size: cover;
 }
+
+.swiper {
+  width: 50%;
+  height: 100%;
+}

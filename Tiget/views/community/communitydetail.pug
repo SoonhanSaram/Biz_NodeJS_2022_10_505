@@ -1,0 +1,35 @@
+extends ../layout
+
+block content
+    section.main
+        div.title 
+            h3.title 게시판샘플
+        div.porum
+            
+            div.listbox
+                ul.artist 게시판선택
+                    li 1
+                    li 2
+                    li 3
+                    li 4
+                    li 5
+                    li 6
+            //- 게시판 서치박스 & 게시글
+            div.searchbox
+                .search                     
+                    input(placeholder="검색어를 입력해주세요" title="검색어").search                
+                    button(type="button").search 검색                          
+                    .dropparent
+                        li.count 게시물 갯수
+                            .dropcontent
+                                a.dropbutton 20개
+                                a.dropbutton 30개
+                                a.dropbutton 50개
+                .contentsbox 
+                    table.board 
+                        thead                                          
+                            th(scope="co" class="t_num") No.
+                            th(scope="co" class="t_title") 제목
+                            th(scope="co" class="t_date") 날짜
+                        tbody 
+                            td
