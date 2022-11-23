@@ -1,0 +1,54 @@
+html {
+  box-sizing: border-box;
+  width: 100vw;
+  height: 100vh;
+}
+body {
+  width: 100%;
+  height: 100%;
+  overflow-x: hidden;
+  padding: 0;
+  margin: 0;
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+.container {
+  margin-left: 10%;
+  margin-right: 10%;
+  width: 80%;
+}
+.bbs.list {
+  width: 100%;
+}
+.bbs.list tr {
+  display: flex;
+}
+.bbs.list th,
+td {
+  text-align: left;
+  flex: 1;
+  border-bottom: 1px solid black;
+  border-collapse: collapse;
+  opacity: 0.7;
+  transition: all 0.5s;
+}
+.bbs.list th,
+td:hover {
+  opacity: 1;
+}
+.bbs.list td {
+  cursor: pointer;
+}
+.bbs.button.box.index {
+  display: flex;
+  justify-content: right;
+}
+.bbs.button.box button.insert {
+  border: none;
+  cursor: pointer;
+  background-color: white;
+  padding: 0.5em;
+  margin-top: 12px;
+}
+.bbs.button.box button.insert:hover {
+  text-shadow: 0.1px 0.1px 0.1px rgba(0, 0, 0, 0.6);
+}

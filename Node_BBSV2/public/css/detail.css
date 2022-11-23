@@ -1,0 +1,12 @@
+.bbs.detail {
+  margin-left: 10%;
+  width: 80%;
+  display: grid;
+  grid-template-rows: 0.1fr 0.1fr 5fr;
+}
+.row {
+  display: flex;
+}
+.Fst div:nth-last-of-type(2) {
+  margin-left: auto;
+}

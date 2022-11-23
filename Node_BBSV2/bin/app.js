@@ -14,7 +14,7 @@ import path from "path";
 // 3rd party lib modules
 import cookieParser from "cookie-parser";
 import logger from "morgan";
-import { Db, MongoClient } from "mongodb";
+import mongoose from "mongoose";
 import { atlasURL } from "../config/mongodb.js";
 
 // sample router modules
@@ -23,14 +23,26 @@ import usersRouter from "../routes/users.js";
 
 // create express framework
 const app = express();
-const client = new MongoClient(atlasURL);
-// server가 시작될 때 DB연결이 잘 되는지 확인하는 절자
-(async () => {
-  await client.connect();
-  console.log("MogoDB Connect OK");
-  client.close();
-})();
 
+/**
+ * mongoDB와 mongoose를 연동하는 프로젝트에서
+ * 사용하는 evnet handdler를 위한 객체
+ */
+const dbConn = mongoose.connection;
+// mongoose를 통해서 mongoDB에 접속이 정상적으로
+// 되었을 때 최초에 한번 실행되는 eventhanddler
+dbConn.once("open", () => {
+  console.log("MongoDB open OK");
+});
+// DB연결 후 문제가 발생하면 호출되는 eventhanddler
+dbConn.on("error", (err) => {
+  if (err) {
+    console.error(err``);
+  }
+});
+// mongoose를 통하여 mongoDB에 연결하는 함수
+// mongoDB 연결을 비동기(async) 방식으로 수행
+await mongoose.connect(atlasURL);
 /**
  * 일반적인 함수/ 즉시 실행
  * const connection = async () => {
