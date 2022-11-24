@@ -9,20 +9,18 @@ block content
     script(src="/js/detail.js")
     article.bbs.detail
         .row.Fst
-            div 작성일자
-            div= bbs.b_date 
-            div 작성시각
-            div= bbs.b_time 
-            div 작성자
-            div= bbs.b_write
-        .row.Snd
-            div 제목
-            div= bbs.b_subject 
-        .row.Trd
-            div 내용
-            div= bbs.b_content 
+            div.label 작성일자
+            div.data= bbs.b_date 
+            div.label 작성시각
+            div.data= bbs.b_time 
+            div.label 작성자
+            div.data= bbs.b_write
+        .row.Snd                   
+            div.data= bbs.b_subject 
+        .row.Trd            
+            div.data= bbs.b_content 
     .bbs.detail.button.box 
         button.bbs.update(type="button") 수정
         button.bbs.delete(type="button") 삭제
         button.bbs.list(type="button") 목록
-
+   

@@ -1,0 +1,30 @@
+extends layout
+
+block content
+  
+  .container
+    table.bbs.list
+      thead
+        tr
+          th 작성일
+          th 작성시각
+          th 작성자ID
+          th 제목
+          th ...
+      tbody 
+        each bbs in bbsList
+          tr(data-id=`${bbs.id}`)
+            td= bbs.b_date 
+            td= bbs.b_time  
+            td= bbs.b_write  
+            td= bbs.b_subject  
+            td 
+          each cmm in bbs.b_comments 
+            tr
+              td 
+              td re&gt;&nbsp;&nbsp;
+              td= cmm.ct_write              
+              td  `#{cmm.ct_comment}`
+    .bbs.button.box.index
+      button.bbs.insert 추가
+
