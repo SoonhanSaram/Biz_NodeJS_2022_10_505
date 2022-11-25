@@ -4,9 +4,54 @@ document.addEventListener("DOMContentLoaded", () => {
   const bbsUpdate = doc.querySelector(`${btn}.update`);
   const bbsDelete = doc.querySelector(`${btn}.delete`);
   const bbsList = doc.querySelector(`${btn}.list`);
+  // 댓글 추가버튼
+  const bbsCommentAdd = doc.querySelector("button.comment");
+  // 댓글 input박스
+  const bbsCommentInput = doc.querySelector("input.comment");
+  const bbsCommentBox = doc.querySelector(".comments.box");
+  const commentListView = (commList) => {
+    // list box clear
+    bbsCommentBox.textContent = "";
+    const commentList = commList.map((comm) => {
+      // p.comment.list.box
+      const pBox = doc.createElement("P");
+      pBox.className = "comment list box";
 
-  const bbsCommentAdd = doc.querySelector("button.comment.add");
-  const bbsCommentInput = doc.querySelector("input#b_comment");
+      let span = doc.createElement("SPAN");
+      span.className = "comment write";
+      span.textContent = `${comm.ct_write || 익명}`;
+      pBox.appendChild(span);
+
+      span = doc.createElement("SPAN");
+      span.className = "comment content";
+      span.textContent = `${comm.ct_comment}`;
+      pBox.appendChild(span);
+
+      span = doc.createElement("SPAN");
+      span.className = "comment delete";
+      span.innerHTML = `&times;`;
+      span.dataset.id = comm._id;
+      pBox.appendChild(span);
+
+      return pBox;
+    }); // end map
+    bbsCommentBox.append(...commentList);
+  };
+  bbsCommentBox?.addEventListener("click", (e) => {
+    const span = e.target;
+    if (span.tagName == "SPAN" && span.className.indexOf("delete") > 0) {
+      if (confirm(`댓글을 삭제합니다`)) {
+        const commentID = span.dataset.id;
+        // 서버에 DELETE RequestMethod를 사용하여
+        // 데이터 삭제를 요청
+        fetch(`/comment/${id}/${commentID}`, { method: "DELETE" })
+          .then((res) => res.json())
+          .then((json) => {
+            commentListView(json.b_comments);
+          });
+      }
+    }
+  });
 
   bbsCommentAdd?.addEventListener("click", () => {
     const comment = bbsCommentInput?.value;
@@ -15,6 +60,8 @@ document.addEventListener("DOMContentLoaded", () => {
       bbsCommentInput.select();
       return false;
     }
+    // id : detail.pug에서 선언된 게시판 ID
+    // comment : 입력한 댓글
     const commentData = { id, ct_comment: comment };
     /**
      * fetch 기본 method는 get방식
@@ -23,9 +70,9 @@ document.addEventListener("DOMContentLoaded", () => {
      * PUT : 기존의 데이터를 변경하고자 할 떄
      */
     const fetchOption = {
-      method: "PUT",
-      body: JSON.stringify(commentData),
-      headers: { "Content-Type": "application/json" },
+      method: "PUT", // RequestMethod
+      body: JSON.stringify(commentData), //서버로 보낼 데이터
+      headers: { "Content-Type": "application/json" }, //보낼 데이터형식(json)
     };
     fetch("/comment/add", fetchOption)
       // fetch가 성공적으로 수행되고 server에서 req가 오면
@@ -38,19 +85,11 @@ document.addEventListener("DOMContentLoaded", () => {
       .then((res) => res.json())
       .then((json) => {
         console.log(json);
-        const commentList = json.b_comments;
-        const cmmBox = doc.querySelector(".comments.item");
-        //  map을 사용하여 댓글 개수만큼 pTag를 만들기
-        //  생성된 ptag는 pTagList 배열에 담기
-        const pTagList = commentList.map((cmm) => {
-          const pTag = doc.createElement("P");
-          pTag.textContent = `${cmm.ct_write}.. ${cmm.ct_comment}`;
-          return pTag;
-        });
-        cmmBox.textContent = "";
-        // pTagList 배열을 cmmBox에 한꺼번에 append
-        // 배열을 한꺼번에 추가할 때 append(...배열)
-        cmmBox.append(...pTagList);
+        // 위에서 선언한 commentListView함수를 이용
+        //
+        commentListView(json.b_comments);
+        // bbsCommentInput.value = "";
+        bbsCommentInput.select();
       });
   });
 

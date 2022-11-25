@@ -36,6 +36,16 @@ router.get("/detail/:id", async (req, res) => {
   }
 });
 
+router.post("/detail/:id", async (req, res) => {
+  const id = req.body.id;
+  try {
+    const result = await BBS.findById(id);
+    return res.render("index", { bbs: result });
+  } catch (err) {
+    return res.json(err);
+  }
+});
+
 router.get("/update/:id", async (req, res) => {
   const id = req.params.id;
 
@@ -102,6 +112,41 @@ router.put("/comment/add", async (req, res) => {
   } catch (err) {
     console.log(err);
     return res.send(err);
+  }
+});
+// DELETE Request method를 처리하는 Router
+/**
+ * 댓글 삭제하기
+ * 조건 : 한 개의 게시글에 다수(배열)의 댓글이 저장된 상태
+ * 1. bbsid값으로 게시글을 SELECT하고
+ * 2. SELECT된 게시글에 댓글이 있으면
+ * 3. 댓글 배열 List중에서 commId값을 갖는 데이터를 삭제
+ */
+router.delete("/comment/:bbsid/:commentid", async (req, res) => {
+  const { bbsid, commentid } = req.params;
+  console.log(bbsid, commentid);
+  try {
+    // bbsid에 해당하는 게시글 SELECT
+    const bbs = await BBS.findById(bbsid);
+    // bbs에서 comment 배열 추출
+    const commentList = bbs.b_comments;
+    /**
+     * commentList 데이터중에서 _id값이 commentid와
+     * 다른 데이터만 추출해 resultList에 담기
+     * 결과적으로 삭제하려고 하는 commId에 해당하는 데이터는
+     * 삭제된 채 resultList가 만들어짐
+     */
+    const resultList = commentList.filter((comm) => {
+      return comm._id != commentid;
+    });
+    bbs.b_comments = resultList;
+    // 댓글이 삭제된 리스트가 있는 BBS를 저장
+    await bbs.save();
+    // 결과를 다시 Response
+    return res.json(bbs);
+  } catch (err) {
+    console.error(err);
+    return res.json(err);
   }
 });
 

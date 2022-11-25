@@ -18,13 +18,20 @@ block content
             td= bbs.b_time  
             td= bbs.b_write  
             td= bbs.b_subject  
-            td 
-          each cmm in bbs.b_comments 
-            tr
-              td 
-              td re&gt;&nbsp;&nbsp;
-              td= cmm.ct_write              
-              td  `#{cmm.ct_comment}`
+            td.more
+              div.more 더보기
+            .glance 
+              article.bbs.detail        
+                div.label 작성일자
+                div.data= bbs.b_date 
+                div.label 작성시각
+                div.data= bbs.b_time 
+                div.label 작성자
+                div.data= bbs.b_write
+                div.label 제목
+                div.data= bbs.b_subject 
+                div.label 내용  
+                div.data= bbs.b_content
     .bbs.button.box.index
       button.bbs.insert 추가
 

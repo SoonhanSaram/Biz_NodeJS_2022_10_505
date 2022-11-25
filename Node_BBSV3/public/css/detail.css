@@ -26,7 +26,41 @@ article.bbs.detail div {
 }
 .bbs.comments {
   width: 80%;
-  margin: 5px auto;
+  margin: 10px auto;
+  border: 1px solid black;
+}
+
+p.comment.list.box {
   display: flex;
-  flex-direction: column;
+}
+span.comment {
+  flex: 2;
+  padding: 5px;
+  line-height: 20px;
+}
+span.comment.write {
+  flex: 1 !important;
+  text-align: center;
+}
+span.comment.content {
+  text-align: left;
+  font-weight: 700;
+}
+span.comment.delete {
+  flex: 1;
+  color: #777;
+  text-align: center;
+  cursor: pointer;
+  /*
+  1em : 주위의 폰트 크기와 1:1, 2em : 2배
+  */
+  font-size: 2em;
+  opacity: 0.1;
+  transition: all 0.7s;
+}
+p.comment.list.box:hover span.comment.delete {
+  opacity: 1;
+}
+span.more {
+  opacity: 0;
 }

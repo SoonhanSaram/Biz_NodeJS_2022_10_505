@@ -22,10 +22,16 @@ block content
         button.bbs.update(type="button") 수정
         button.bbs.delete(type="button") 삭제
         button.bbs.list(type="button") 목록
-    .bbs.comments
-        .comments.item 
-            each comment in bbs.b_comments
-                p= `${comment.ct_write}..${comment.ct_comment}`
+    article.bbs.comments
         .comments.input 
-            input()#b_comment
-            button.comment.add 댓글추가
+            input.comment 
+            button.comment 댓글추가
+        .comments.box
+            each comm in bbs.b_comments
+                p.comment.list.box
+                    span.comment.write=`${comm.ct_write || 익명}`
+                    span.comment.content= comm.ct_comment
+                    //- 댓글의 id를 dataset
+                    span.comment.delete(data-id=`${comm._id}`) &times;
+                
+        
