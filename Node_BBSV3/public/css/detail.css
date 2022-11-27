@@ -1,66 +1,90 @@
-div.label {
-  background-color: #ddd;
-  text-align: right;
-  font-weight: 900;
+.detail.container{
+    width: 80%;
+    height: 100%;
+    margin-left: 10%;
+    display: flex;
+    flex-direction: column;
+   
 }
-div.data {
+.bbs.detail {
+    width: 80%;
+    height: 80%;
+    margin-left: 10%;
+    display: flex;
+    flex-direction: column;
+    border: none;
+  }  
+.bbs.detail div {
+    display: flex;
+    flex: 0.1;
+    white-space: nowrap;
+    margin: 12px;
 }
-/* 
-nth-of-type() 변수 n이 추가되면
-forEach()처럼 작동
-n+5 : 0번부터 시작하여 5번위치, 6번위치의 div.label에 속성 지정
-*/
-div.label:nth-of-type(n + 5) {
-  background-color: #eee;
+.bbs.detail div:nth-of-type(5) {
+    margin-left: auto;
+    font-size: 1.5em;
+    padding: 10px;
+  }
+.bbs.detail div:nth-of-type(6) {
+    font-size: 1.5em;
+    padding: 10px;
 }
-div.data:nth-of-type(n + 5) {
+.bbs.detail div.Snd{
+    display: flex;
 }
-article.bbs.detail {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr 2fr);
+.bbs.detail div.Snd div {
+    flex:5;
+    font-size: 2em;
+    color:black; 
+    justify-content: center;
+    align-items: center;    
+    color: black;
+    padding-bottom: 1.5em;
+    border-bottom: 1px dotted black
+;
 }
 
-article.bbs.detail div {
-  border: 1px solid #ddd;
-  padding: 12px 16px;
-}
-.bbs.comments {
-  width: 80%;
-  margin: 10px auto;
-  border: 1px solid black;
+.content {
+    padding: 2em;
+    max-width: 100%;
+    white-space: nowrap;
+    word-break: normal;
 }
 
-p.comment.list.box {
-  display: flex;
+.bbs.comments { 
+    display: flex;
+    flex-direction: column;
+    margin-left: 10%;
+    width:80%;
+    max-height: 15%;    
 }
-span.comment {
-  flex: 2;
-  padding: 5px;
-  line-height: 20px;
+p.comment.list.box{
+    display: inline-block;
+    
 }
-span.comment.write {
-  flex: 1 !important;
-  text-align: center;
+.bbs.comments .comments.input {        
+    margin-left: auto;     
 }
-span.comment.content {
-  text-align: left;
-  font-weight: 700;
+input.comment{
+transition: all 0.5s;
 }
-span.comment.delete {
-  flex: 1;
-  color: #777;
-  text-align: center;
-  cursor: pointer;
-  /*
-  1em : 주위의 폰트 크기와 1:1, 2em : 2배
-  */
-  font-size: 2em;
-  opacity: 0.1;
-  transition: all 0.7s;
+input.comment:focus {
+    width: 240px;
 }
-p.comment.list.box:hover span.comment.delete {
-  opacity: 1;
+span.comment.delete{
+    cursor: pointer;  
+    align-items: right;  
 }
-span.more {
-  opacity: 0;
+.bbs.comments .comments.box {
+    width: 100%;
+    margin-right: auto;
+    overflow-y:auto ;
+}
+.bbs.detail.button.box {
+    display: flex;
+    flex-direction: row;
+}
+.bbs.detail.button.box button {
+    flex: 1;
+    max-height: 5%;
 }

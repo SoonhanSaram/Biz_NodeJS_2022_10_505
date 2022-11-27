@@ -7,31 +7,32 @@ block content
         //- js에서 사용할 수 있도록 id변수에 할당하기
         const id = `#{bbs._id}`
     script(src="/js/detail.js")
-    article.bbs.detail        
-        div.label 작성일자
-        div.data= bbs.b_date 
-        div.label 작성시각
-        div.data= bbs.b_time 
-        div.label 작성자
-        div.data= bbs.b_write
-        div.label 제목
-        div.data= bbs.b_subject 
-        div.label 내용  
-        div.data= bbs.b_content 
-    .bbs.detail.button.box 
-        button.bbs.update(type="button") 수정
-        button.bbs.delete(type="button") 삭제
-        button.bbs.list(type="button") 목록
-    article.bbs.comments
-        .comments.input 
-            input.comment 
-            button.comment 댓글추가
-        .comments.box
-            each comm in bbs.b_comments
-                p.comment.list.box
-                    span.comment.write=`${comm.ct_write || 익명}`
-                    span.comment.content= comm.ct_comment
-                    //- 댓글의 id를 dataset
-                    span.comment.delete(data-id=`${comm._id}`) &times;
-                
+    div.detail.container
+        article.bbs.detail        
+            div.Fst
+                div.label 작성일자
+                div.data= bbs.b_date 
+                div.label 작성시각
+                div.data= bbs.b_time 
+                div.label 작성자 :
+                div.data= bbs.b_write
+            div.Snd            
+                div.data= bbs.b_subject 
+            div.Trd                          
+                div.content.data= bbs.b_content     
+        article.bbs.comments 댓글
+            .comments.box
+                each comm in bbs.b_comments
+                    p.comment.list.box
+                        span.comment.write=`${comm.ct_write || 익명}`
+                        span.comment.content= comm.ct_comment
+                        //- 댓글의 id를 dataset
+                        span.comment.delete(data-id=`${comm._id}`) &times;
+            .comments.input 댓글쓰기
+                input(placeholder="댓글입력").comment 
+                button.comment 댓글추가        
+        .bbs.detail.button.box 
+            button.bbs.update(type="button") 수정
+            button.bbs.delete(type="button") 삭제
+            button.bbs.list(type="button") 목록
         

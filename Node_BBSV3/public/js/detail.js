@@ -51,7 +51,7 @@ document.addEventListener("DOMContentLoaded", () => {
           });
       }
     }
-  });
+  })
 
   bbsCommentAdd?.addEventListener("click", () => {
     const comment = bbsCommentInput?.value;

@@ -7,15 +7,30 @@ const timeFormat = "HH:mm:ss";
 const router = express.Router();
 
 router.get("/", async (req, res) => {
+
   try {
     const bbsResult = await BBS.find();
+        // console.log(rplyCount)
+    console.log(bbsResult.b_comments)
     // select된 bbs데이터 bbsresult를
     // bbsList변수에 담아서 index에서 rendering
-    return res.render("index", { bbsList: bbsResult });
+    return res.render("index", { bbsList: bbsResult});
   } catch (err) {
     return res.json(err);
   }
 });
+// 게시글 fetch
+// router.get("/:id", async (req, res) => {
+//   const id = req.params.id;
+//   // console.log(id)
+//   try {
+//     const result = await BBS.findById(id);   
+//     // console.log(result) 
+//     return res.render("index", { board: result });           
+//   } catch (err) {
+//     return res.json(err);
+//   }
+// });
 
 router.get("/insert", async (req, res) => {
   // moment를 사용하여 현재 날짜 시각을
@@ -30,28 +45,23 @@ router.get("/detail/:id", async (req, res) => {
   const id = req.params.id;
   try {
     const result = await BBS.findById(id);
-    return res.render("detail", { bbs: result });
+    // return res.send(result);
+    return res.render("detail", { bbs: result });    
   } catch (err) {
     return res.json(err);
   }
 });
 
-router.post("/detail/:id", async (req, res) => {
-  const id = req.body.id;
-  try {
-    const result = await BBS.findById(id);
-    return res.render("index", { bbs: result });
-  } catch (err) {
-    return res.json(err);
-  }
-});
+
 
 router.get("/update/:id", async (req, res) => {
   const id = req.params.id;
 
   try {
     const result = await BBS.findById(id);
+    
     return res.render(`write`, { bbs: result });
+    
   } catch (err) {}
 });
 

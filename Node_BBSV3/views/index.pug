@@ -1,7 +1,8 @@
 extends layout
 
-block content
-  
+block content 
+ 
+  script(src="/js/list.js")
   .container
     table.bbs.list
       thead
@@ -10,28 +11,24 @@ block content
           th 작성시각
           th 작성자ID
           th 제목
-          th ...
-      tbody 
-        each bbs in bbsList
-          tr(data-id=`${bbs.id}`)
-            td= bbs.b_date 
-            td= bbs.b_time  
-            td= bbs.b_write  
-            td= bbs.b_subject  
-            td.more
-              div.more 더보기
-            .glance 
-              article.bbs.detail        
-                div.label 작성일자
-                div.data= bbs.b_date 
-                div.label 작성시각
-                div.data= bbs.b_time 
-                div.label 작성자
-                div.data= bbs.b_write
-                div.label 제목
-                div.data= bbs.b_subject 
-                div.label 내용  
-                div.data= bbs.b_content
+          th ...          
+      tbody                     
+      each bbs in bbsList
+        tr(data-id=`${bbs.id}`)
+          td.glance(data-id=`${bbs.id}`)
+            //- div 제목
+            //- div= bbs.b_subject   
+            //- div 작성자
+            //- div= bbs.b_write                                            
+            //- div= bbs.b_content
+            div= bbs.b_content
+          td= bbs.b_date 
+          td= bbs.b_time  
+          td= bbs.b_write  
+          td= bbs.b_subject  
+          td.more
+            div.more 더보기                                            
     .bbs.button.box.index
       button.bbs.insert 추가
-
+  
+    
