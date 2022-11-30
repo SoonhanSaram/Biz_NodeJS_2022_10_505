@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      section.main {
+        max-width: 800px;
+        height: 50px;
+        margin: 100px auto;
+        position: relative;
+        border: 1px solid #999;
+      }
+      article.control_box {
+        width: 100%;
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        display: flex;
+        padding: 12px 20px;
+      }
+      article.img_box {
+        overflow: hidden;
+        display: flex;
+      }
+      article.img_box.reverse {
+        overflow: hidden;
+        display: flex;
+        flex-direction: row-reverse;
+      }
+      img.img_slide {
+        transition: 2s;
+        width: 100%;
+      }
+      span.badge {
+        background-color: black;
+        display: inline-block;
+        border-radius: 50%;
+        border: 2px solid white;
+        width: 15px;
+        height: 15px;
+        margin: 3px;
+      }
+      div.button {
+        font-size: 20px;
+        font-weight: 900;
+        color: white;
+        transition: 0.7s;
+        opacity: 0;
+      }
+      div.badge_box,
+      div.button.right {
+        margin-left: auto;
+      }
+
+      article.control_box:hover div.button {
+        opacity: 1;
+        cursor: pointer;
+      }
+      div.button:hover {
+        color: yellow;
+      }
+      span.badge:hover {
+        background-color: #ddd;
+        cursor: pointer;
+      }
+      span.badge.active {
+        background-color: #eee;
+      }
+    </style>
+  </head>
+  <body>
+    <section class="main">
+      <article class="control_box">
+        <div class="button left">&lt;</div>
+        <div class="badge_box"></div>
+        <div class="button right">&gt;</div>
+      </article>
+      <article class="img_box">
+        <img class="img_slide" width="100%" />
+      </article>
+    </section>
+    <script>
+      let slideIndex = 1;
+      const control_box = document.querySelector("article.control_box");
+      const badge_box = document.querySelector("div.badge_box");
+      const image_box = document.querySelector("article.img_box");
+      const img = document.querySelector("img.img_slide");
+      img.src = "/images/image_01.jpg";
+
+      const imgList = [
+        "/images/image_01.jpg",
+        "/images/image_02.jpg",
+        "/images/image_03.jpg",
+        "/images/image_04.jpg",
+        "/images/image_05.jpg",
+      ];
+      const imageActivetoRight = (pos) => {
+        const newImg = document.querySelector("img.img_slide");
+        newImg.style.marginRight = "-100%";
+        newImg.style.opacity = "0";
+        const beforeImage = document.createElement("IMG");
+        beforeImage.className = "img_slide";
+        beforeImage.src = imgList[pos - 1];
+        image_box.appendChild(beforeImage);
+        const imageRemove = () => {
+          document.querySelector("article.img_box.reverse img").remove();
+        };
+        setTimeout(imageRemove, 2000);
+      };
+      let oldPos = 1;
+      const imageActive = (pos) => {
+        const oldImg = document.querySelector("img.img_slide");
+        if (oldPos < pos) {
+          image_box.classList.remove("reverse");
+          oldImg.style.marginLeft = "-100%";
+        } else {
+          image_box.classList.add("reverse");
+          oldImg.style.marginRight = "-100%";
+        }
+
+        oldImg.style.opacity = "0";
+        const nextImage = document.createElement("IMG");
+        nextImage.className = "img_slide";
+        nextImage.src = imgList[pos - 1];
+        image_box.appendChild(nextImage);
+        const imageRemove = () => {
+          document.querySelector("article.img_box img").remove();
+        };
+        setTimeout(imageRemove, 2000);
+      };
+      const badgeActive = (pos) => {
+        const dots = badge_box.querySelectorAll("span");
+        for (let dot of dots) {
+          dot.classList.remove("active");
+        }
+        dots[pos - 1].classList.add("active");
+      };
+
+      control_box?.addEventListener("click", (e) => {
+        const controllor = e.target;
+        let activeIndex = slideIndex;
+        if (controllor.tagName === "SPAN") {
+          const pos = controllor.dataset.index;
+          activeIndex = slideIndex;
+          console.log(activeIndex);
+          slideIndex = pos;
+          console.log(slideIndex);
+          if (activeIndex < slideIndex) {
+            imageActive(slideIndex);
+            badgeActive(slideIndex);
+          } else if (activeIndex > slideIndex) {
+            image_box.classList.add("reverse");
+            imageActivetoRight(slideIndex);
+            badgeActive(slideIndex);
+          }
+        } else if (controllor.className === "button left") {
+          image_box.classList.remove("reverse");
+          slideIndex--;
+          if (slideIndex < 1) slideIndex = imgList.length;
+          imageActive(slideIndex);
+          badgeActive(slideIndex);
+        } else if (controllor.className === "button right") {
+          image_box.classList.add("reverse");
+          slideIndex++;
+          if (slideIndex > imgList.length) slideIndex = 1;
+          imageActive(slideIndex);
+          badgeActive(slideIndex);
+        }
+      });
+      document.addEventListener("DOMContentLoaded", () => {
+        const spans = imgList.map((_, index) => {
+          let span = document.createElement("SPAN");
+          span.className = "badge";
+          span.dataset.index = index + 1;
+          return span;
+        });
+        badge_box.append(...spans);
+        badgeActive(1);
+      });
+    </script>
+  </body>
+</html>
