@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <h1>반갑습니다</h1>
+    <p><a href="/api">API 바로가기</a></p>
+    <form method="GET" action="/api/student">
+      <input name="st_name" placeholder="get방식으로 요청" />
+    </form>
+    <form method="POST" action="/api/student">
+      <input name="st_name" placeholder="post방식으로 요청" />
+    </form>
+    <div class="update">
+      <input id="st_name" placeholder="변경할 학생 이름" />
+      <input id="st_grade" placeholder="학년" />
+      <input id="st_dept" placeholder="학과" />
+      <button id="st_update">업데이트</button>
+    </div>
+    <div class="delete">
+      <input id="stname" placeholder="학생이름" />
+      <button id="st_delete">삭제</button>
+    </div>
+    <script>
+      document
+        .querySelector("button#st_delete")
+        ?.addEventListener("click", () => {
+          const stname = document.querySelector("input#stname").value;
+          fetch(`/api/student/${stname}`, {
+            method: "delete",
+            // body: JSON.stringify({ st_name: stname }),
+          })
+            .then((response) => response.json())
+            .then((result) => alert(result.message));
+        });
+      document
+        .querySelector("button#st_update")
+        ?.addEventListener("click", () => {
+          const stInputs = document.querySelectorAll("div.update input");
+          const student = {
+            st_name: stInputs[0].value,
+            st_grade: stInputs[1].value,
+            st_dept: stInputs[2].value,
+          };
+
+          fetch(`/api/student`, {
+            method: "PUT",
+            headers: {
+              "Content-Type": "Application/json",
+            },
+            body: JSON.stringify(student),
+          })
+            //   fecth()함수의 첫번째 결과는
+            // response 정보가 담겨서 수신
+            //  .then() 함수를 통하여 처리
+            // .then(response => {return response.json()})
+            // reponse 정보에서, JSON데이터만 추출한 다음
+            // 다음 then()함수에 전달
+            .then((response) => response.json())
+            .then((result) => alert(result.message));
+        });
+    </script>
+  </body>
+</html>
