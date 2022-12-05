@@ -1,4 +1,4 @@
-import Sequelize from "sequelize";
+import { Sequelize } from "sequelize";
 export default (sequelize) => {
   return sequelize.define(
     "tbl_bbs",
@@ -10,17 +10,17 @@ export default (sequelize) => {
         primaryKey: true,
       },
       b_date: {
-        type: Sequelize.DataTypes.STRING(10),
+        type: Sequelize.DataTypes.STRING(20),
         allowNull: false,
         defaultValue: Sequelize.Sequelize.literal(
-          "date_format(now(),_utf8mb4\\'%Y-%M-%D\\')"
+          "(date_format(now(),_utf8mb4'%Y-%m-%d'))"
         ),
       },
       b_time: {
-        type: Sequelize.DataTypes.STRING(10),
+        type: Sequelize.DataTypes.STRING(20),
         allowNull: false,
         defaultValue: Sequelize.Sequelize.literal(
-          "date_format(now(),_utf8mb4\\'%H:%i:%S\\')"
+          "(date_format(now(),_utf8mb4'%H:%i:%S'))"
         ),
       },
       b_writer: {

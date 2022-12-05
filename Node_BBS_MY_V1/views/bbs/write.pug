@@ -1,10 +1,10 @@
 extends ../layout
 
 block content
-  form(method="post" enctype="multipart/form-data")
+  form(method="post", enctype="multipart/form-data")
     div
       label(for="b_write") 작성자
-      input(type="text", name="b_write")#b_write
+      input(type="text", name="b_writer")#b_write
     div
       label(for="b_subject") 제목
       input(type="text" name="b_subject")#b_subject
@@ -13,7 +13,7 @@ block content
       input(type="text" name="b_content")#b_content
     div
       label(for="b_upfile") 파일
-      input(type="file" name="b_upfile")#b_upfile
+      input(type="file" name="b_upfile" multiple accept="image/*")#b_upfile
     div
       label(for="") 
       input(type="SUBMIT", value="저장")

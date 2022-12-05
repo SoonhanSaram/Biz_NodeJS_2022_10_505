@@ -89,3 +89,14 @@ on delete cascade
 alter table tbl_files add constraint f_bbs
 foreign key(f_bseq) references tbl_bbs(b_seq)
 on delete cascade;
+-- 참조 무결성 관계 삭제
+alter table tbl_files 
+drop constraint tbl_files_ibfk_1;
+
+use bbsdb;
+select * from tbl_bbs;
+-- on delete cascade가 설정되어 있어
+-- tbl_bbs의 항목을 삭제하면 덩달아서 tbl_files의 데이터도 함께 삭제
+select * from tbl_bbs join tbl_files on b_seq = f_bseq;
+
+delete from tbl_bbs where b_seq =  11 ;

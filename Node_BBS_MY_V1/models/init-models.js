@@ -5,6 +5,7 @@ function initModels(sequelize) {
   var tbl_bbs = _tbl_bbs(sequelize);
   var tbl_files = _tbl_files(sequelize);
 
+  // fk 만드는 법
   tbl_files.belongsTo(tbl_bbs, { as: "f_bseq_tbl_bb", foreignKey: "f_bseq" });
   tbl_bbs.hasMany(tbl_files, { as: "tbl_files", foreignKey: "f_bseq" });
 

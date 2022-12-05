@@ -22,7 +22,7 @@ const storageOption = {
     const newfileName = Buffer.from(
       `${uuidPrefix}-${file.originalname}`,
       "latin1"
-    ).toString("UTF-8");
+    ).toString("UTF8");
 
     const uploadFilename = newfileName.substring(newfileName.length - 255);
     // 새로 변경된 파일이름을 multer에 전달
