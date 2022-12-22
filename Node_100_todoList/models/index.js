@@ -2,6 +2,8 @@ import Sequelize from "sequelize";
 import process from "process";
 import initModel from "./init-models.js";
 
+
+
 const env = process.env.NODE_ENV || "development";
 import configJS from "../config/db_config.js";
 const config = configJS[env];
