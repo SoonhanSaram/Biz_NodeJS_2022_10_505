@@ -1,64 +1,60 @@
 import { Sequelize } from "sequelize";
 export default (sequelize) => {
   return sequelize.define(
-    "tbl_files",
+    "tbl_bbs",
     {
-      f_seq: {
+      b_seq: {
         autoIncrement: true,
         type: Sequelize.DataTypes.BIGINT,
         allowNull: false,
         primaryKey: true,
       },
-      f_bseq: {
-        type: Sequelize.DataTypes.BIGINT,
-        allowNull: false,
-        references: {
-          model: "tbl_bbs",
-          key: "b_seq",
-        },
-      },
-      f_date: {
-        type: Sequelize.DataTypes.STRING(10),
+      b_date: {
+        type: Sequelize.DataTypes.STRING(20),
         allowNull: false,
         defaultValue: Sequelize.Sequelize.literal(
-          "(date_format(now(),_utf8mb4'%Y-%M-%D'))"
+          "(date_format(now(),_utf8mb4'%Y-%m-%d'))"
         ),
       },
-      f_time: {
-        type: Sequelize.DataTypes.STRING(10),
+      b_time: {
+        type: Sequelize.DataTypes.STRING(20),
         allowNull: false,
         defaultValue: Sequelize.Sequelize.literal(
           "(date_format(now(),_utf8mb4'%H:%i:%S'))"
         ),
       },
-      f_original_name: {
-        type: Sequelize.DataTypes.STRING(255),
+      b_writer: {
+        type: Sequelize.DataTypes.STRING(125),
         allowNull: false,
       },
-      f_save_name: {
-        type: Sequelize.DataTypes.STRING(255),
+      b_subject: {
+        type: Sequelize.DataTypes.STRING(125),
         allowNull: false,
       },
-      f_ext: {
-        type: Sequelize.DataTypes.STRING(10),
+      b_content: {
+        type: Sequelize.DataTypes.TEXT,
         allowNull: false,
+      },
+      b_count: {
+        type: Sequelize.DataTypes.INTEGER,
+        allowNull: true,
+      },
+      b_update: {
+        type: Sequelize.DataTypes.DATE,
+        allowNull: false,
+        defaultValue: Sequelize.Sequelize.literal("CURRENT_TIMESTAMP"),
       },
     },
     {
       sequelize,
-      tableName: "tbl_files",
+      tableName: "tbl_bbs",
       timestamps: false,
       indexes: [
         {
           name: "PRIMARY",
           unique: true,
           using: "BTREE",
-          fields: [{ name: "f_seq" }],
-        },
-        {
-          name: "f_bbs",
-          using: "BTREE",
-          fields: [{ name: "f_bseq" }],
+          fields: [{ name: "b_seq" }],
         },
       ],
     }
