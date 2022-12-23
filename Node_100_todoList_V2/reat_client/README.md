@@ -26,16 +26,41 @@
   component들이 공유 할 수 있도록 만들어주기
 
 ## Client/Server 방식으로 변경
-* 메모리 구현방식의 todoList를 Server와 연동하여 Client Front Back Project로 구현
-* React Project를 Client로 NodeJS Project를 Server방식으로 구현
-* 현재 NodeJS 서버가 port 3000에서 실행 중 React를 단순히 시작하면
+
+- 메모리 구현방식의 todoList를 Server와 연동하여 Client Front Back Project로 구현
+- React Project를 Client로 NodeJS Project를 Server방식으로 구현
+- 현재 NodeJS 서버가 port 3000에서 실행 중 React를 단순히 시작하면
   port 3000으로 실행되거나, 충동을 감지해 자동으로 임의의 port로 변경 될 것
-* React의 실행 port 변경
-* package.json의 다음 항목을 추가
+- React의 실행 port 변경
+- package.json의 다음 항목을 추가
+
 ```
 "script" :  {
     "window" : "set PORT=5000 && react-script start",
     "mac" : "export PORT=5000 && react-script start",
     "linux" : "export PORT=5000 && react-script start"
 }
+```
+
+## React 프로젝트 자동 빌드
+
+- NodeJS와 React를 연동하면, React는 항상 Build가 된 상태로 유지
+- React 소스코드를 변경하면 Build에 자동반영 되지 않음
+- nodemon을 사용해 자동 build 실행
+
+## Nodemon을 사용해 자동 빌드
+
+- `nodemon ignore`만들기 : `nodemon.json` ; nodemon은 파일이 저장되면 자동 재실행되나
+  재실행되는 것을 방지하는 설정
+
+```json
+{
+  "ignore": ["build", "nodemon,json"]
+}
+```
+
+- nodemon을 자동빌드 옵션으로 실행
+
+```bash
+nodemon --exec "react-scripts build"
 ```
