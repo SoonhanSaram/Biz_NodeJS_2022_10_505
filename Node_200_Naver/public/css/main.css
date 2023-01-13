@@ -32,7 +32,12 @@ section.book.main span.book {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  padding: 10px 5px;
 }
 section.book.main span.book.title {
   width: 300px;
+  cursor: pointer;
+}
+section.book.main span.book.title:hover {
+  background-color: #bbb;
 }

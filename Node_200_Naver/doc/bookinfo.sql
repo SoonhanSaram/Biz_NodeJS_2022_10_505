@@ -22,15 +22,16 @@ my_odate	varchar(15)	,
 my_oprice	INT	,
 primary key(my_username, my_isbn)	
 );
-
+drop table tbl_users;
+alter table tbl_mybooks drop constraint f_userss;
 create table if not exists tbl_users(
 username	varchar(15)	not null	primary key,
 password	varchar(13)	not null	,
 u_name	varchar(125)	not null	,
 u_tel	varchar(15)		,
 u_addr	varchar(255)	,	
-u_nickname	varchar(125)		
-);
+u_nickname	varchar(125)		,
+u_level	INT);
 /*
 tbl_books : tbl_mybooks = 1:N
 	사용자 3명이 001 이라는 도서를 구입했다면
@@ -49,6 +50,12 @@ foreign key (my_isbn) -- N 테이블의 연결 칼럼
 references tbl_books(isbn) ;-- 1 테이블 정보 (PK)
 
 alter table tbl_mybooks -- N 의 테이블
-add constraint f_userss -- FK 이름 (임의)
+add constraint f_users -- FK 이름 (임의)
 foreign key (my_username) -- N 테이블의 연결 칼럼
 references tbl_users(username); -- 1 테이블 정보 (PK)
+
+select * from tbl_mybooks;
+
+insert into tbl_users (username, password, u_name, u_nickname ,u_level)  values ('kkm9596', '123', '김경민', '순한' , 0);
+
+insert into tbl_users (username, password, u_name, u_nickname ,u_level)  values ('kkm4693', '123', '성춘향', '열녀' , 0);

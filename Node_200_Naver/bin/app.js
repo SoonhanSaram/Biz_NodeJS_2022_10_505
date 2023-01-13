@@ -18,6 +18,9 @@ import logger from "morgan";
 // MySQL Sequelize
 import DB from "../models/index.js";
 
+DB.sequelize.sync({ force: true }).then((dbConn) => {
+  console.log(dbConn.options.host, dbConn.config.database, "DB Connection OK");
+});
 // sample router modules
 import indexRouter from "../routes/index.js";
 import usersRouter from "../routes/users.js";
