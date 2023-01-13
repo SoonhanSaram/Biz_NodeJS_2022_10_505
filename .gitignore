@@ -9,3 +9,4 @@ package-lock.json
 mongodb.*
 upload/
 uploads/
+naver_config.*
