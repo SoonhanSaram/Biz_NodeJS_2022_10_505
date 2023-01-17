@@ -1,5 +1,6 @@
 import express from "express";
-import { getBooks } from "../modules/fetch_modules.js";
+import { getBooks } from "../modules/naver_modules.js";
+import Books from "../modules/books_modules.js";
 import DB from "../models/index.js";
 import { Op } from "sequelize";
 
@@ -35,66 +36,23 @@ router.get("/detail/:isbn", async (req, res, next) => {
 });
 
 router.post("/insert", async (req, res, next) => {
-  const book = req.body;
-  const my_book = {
-    my_username: "kkm9596",
-    my_isbn: req.body.isbn,
-    my_odate: req.body.odate,
-    my_oprice: req.body.discount,
-  };
-
   const user = {
     username: "kkm9596",
     password: "123",
     u_name: "순한",
     u_level: 0,
   };
-  // user 정보를 추가할 때 오류가 발생하면 통과
+
+  const book = req.body;
   try {
-    await USERS.create(user);
+    await Books.bookinput(book, user);
   } catch (error) {
     console.log(error);
+    return res.json({ mgs: "오류 발생", error: e });
   }
 
-  console.log(my_book);
-  try {
-    await BOOKS.create(book);
-  } catch (error) {
-    console.log(error);
-    try {
-      // create를 실패하면 update를 다시한번 시도
-      await BOOKS.findByPk(book.isbn);
-    } catch (e) {
-      console.log(e);
-      return res.send("도서정보 저장 오류 발생");
-    }
-  }
+  // 도서정보를 book_module.js 의 bookInput() 에게 이전
 
-  try {
-    await MY_BOOKS.create(my_book);
-  } catch (error) {
-    try {
-      // create를 실패하면 update를 다시한번 시도
-      await MY_BOOKS.update(my_book, {
-        where: {
-          [Op.and]: [
-            { my_isbn: my_book.my_isbn },
-            { my_username: my_book.my_username },
-          ],
-        },
-      });
-    } catch (error) {
-      return res.send("11 도서정보 저장 오류 발생");
-    }
-  }
-
-  try {
-    const mybooks = await MY_BOOKS.findAll();
-    const books = await BOOKS.findAll();
-    const user = await USERS.findAll();
-    res.redirect("/book");
-  } catch (error) {
-    return res.send("SELECT 오류");
-  }
+  return res.send("SELECT 오류");
 });
 export default router;

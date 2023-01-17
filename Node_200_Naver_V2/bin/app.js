@@ -25,6 +25,10 @@ DB.sequelize.sync({ force: true }).then((dbConn) => {
 import indexRouter from "../routes/index.js";
 import usersRouter from "../routes/users.js";
 import bookRouter from "../routes/book.js";
+
+// API router
+import userAPIRouter from "../routes/api/user_api.js";
+import bookAPIRouter from "../routes/api/book_api.js";
 // create express framework
 const app = express();
 
@@ -50,6 +54,10 @@ app.use(express.static(path.join("public")));
 app.use("/", indexRouter);
 app.use("/users", usersRouter);
 app.use("/book", bookRouter);
+
+app.use("/api/user", userAPIRouter);
+app.use("/api/book", bookAPIRouter);
+
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
   next(createError(404));
