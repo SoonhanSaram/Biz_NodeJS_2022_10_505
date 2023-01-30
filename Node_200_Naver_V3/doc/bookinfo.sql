@@ -1,6 +1,6 @@
 -- root 화면
-drop database mybooks;
-Create database howdo;
+
+Create database mybooks;
 use mybooks;
 create table if not exists tbl_books (
 isbn	varchar(13)	PRIMARY KEY,
@@ -26,13 +26,13 @@ drop table tbl_users;
 alter table tbl_mybooks drop constraint f_userss;
 create table if not exists tbl_users(
 username	varchar(15)	not null	primary key,
-password	varchar(255)	not null	,
+password	varchar(13)	not null	,
 u_name	varchar(125)	not null	,
 u_tel	varchar(15)		,
 u_addr	varchar(255)	,	
 u_nickname	varchar(125)		,
 u_level	INT);
-/*tbl_users
+/*
 tbl_books : tbl_mybooks = 1:N
 	사용자 3명이 001 이라는 도서를 구입했다면
     myBooks
@@ -53,17 +53,9 @@ alter table tbl_mybooks -- N 의 테이블
 add constraint f_users -- FK 이름 (임의)
 foreign key (my_username) -- N 테이블의 연결 칼럼
 references tbl_users(username); -- 1 테이블 정보 (PK)
-select * from tbl_books;
-select * from tbl_users;
-select * from tbl_mybooks;
-select U.username, U.U_name, title from tbl_users U left join tbl_mybooks M on  U.username = my_username left join tbl_books B on M.my_isbn = B.isbn where U.username = 'kkm123';
 
-desc tbl_mybooks;
-select * from sessions;
--- truncate 명령
--- table 을 drop 하고 다시 create
-truncate table sessions;
-show tables ;
+select * from tbl_mybooks;
+
 insert into tbl_users (username, password, u_name, u_nickname ,u_level)  values ('kkm9596', '123', '김경민', '순한' , 0);
 
 insert into tbl_users (username, password, u_name, u_nickname ,u_level)  values ('kkm4693', '123', '성춘향', '열녀' , 0);
