@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script>
+      const ws = new WebSocket(`ws://localhost:3000/rooms`);
+
+      ws.onerror = function () {
+        console.log("WebSocket error");
+      };
+
+      // ws.send("room", "hello Room");
+    </script>
+  </head>
+  <body>
+    <h1>hello</h1>
+    <input />
+  </body>
+  <script>
+    document.querySelector("input").addEventListener("keydown", (e) => {
+      console.log(e.keyCode);
+      if (e.keyCode === 13) {
+        ws.send(e.target.value);
+      }
+    });
+    document.querySelector("h1").addEventListener("click", () => {
+      ws.onopen = function () {
+        console.log("WebSocket connection established");
+      };
+      ws.onmessage = (message) => {
+        console.log(message.data);
+      };
+    });
+  </script>
+</html>
