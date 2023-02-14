@@ -1,21 +1,33 @@
 document.addEventListener("DOMContentLoaded", () => {
   const Generator = document.querySelector("button");
   let InputValue = document.querySelector("input");
-
-  Generator.addEventListener("click", () => {
-    InputValue = InputValue.value;
-    const ws = new WebSocket(`ws://localhost:3000/rooms`);
-    ws.onopen = () => {
-      alert("채팅방이 생성되었습니다.");
-    };
+  let msg = {
+    type: "message",
+    text: InputValue.value,
+    id: "테스트1",
+    date: Date.now(),
+  };
+  Generator.addEventListener("click", (e) => {
+    InputValue.value;
+    if (InputValue) {
+      localStorage.setItem("ID", InputValue);
+      document.location.href = `/chat/${InputValue}`;
+    } else {
+      alert("아이디를 입력해주세요");
+      InputValue.focus();
+    }
   });
 
   InputValue.addEventListener("keydown", (e) => {
-    console.log(e.keyCode);
+    InputValue = e.target.value;
     if (e.keyCode === 13) {
-      const ws = new WebSocket(`ws://localhost:3000/rooms`);
-      ws.send("InputValue");
-      // document.location.href = `/chat/${InputValue}`;
+      if (InputValue) {
+        localStorage.setItem("ID", InputValue);
+        document.location.href = `/chat/${InputValue}`;
+      } else {
+        alert("아이디를 입력해주세요");
+        e.focus();
+      }
     }
   });
 });

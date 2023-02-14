@@ -32,17 +32,18 @@ const server = http.createServer(app);
 const wss = new WebSocketServer({ server });
 
 wss.on("connection", (ws, req) => {
-  console.log("접속");
-  if (req.url === "/rooms") {
-    ws.location = Date.now();
-    ws.on("message", (message) => {
-      ws.send(`received ${message}`);
-    });
-  } else if (req.url.startsWith("/chat/")) {
-    ws.on("message", (message) => {
-      ws.send(`received ${message}`);
-    });
-  }
+  ws.location = Date.now();
+  console.log("방생성");
+  ws.on("message", (message) => {
+    console.log("메시지 받음");
+    ws.send(`received ${message}`);
+  });
+
+  req.url.startsWith("/chat/");
+  ws.on("message", (message) => {
+    ws.send(`received ${message}`);
+  });
+
   ws.on("error", console.error);
 
   ws.on("open", function open() {

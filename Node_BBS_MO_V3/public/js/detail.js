@@ -9,6 +9,8 @@ document.addEventListener("DOMContentLoaded", () => {
   // 댓글 input박스
   const bbsCommentInput = doc.querySelector("input.comment");
   const bbsCommentBox = doc.querySelector(".comments.box");
+  
+  
   const commentListView = (commList) => {
     // list box clear
     bbsCommentBox.textContent = "";
