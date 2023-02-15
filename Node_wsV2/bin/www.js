@@ -20,7 +20,7 @@ const normalizePort = (val) => {
   }
   return false;
 };
-
+const portNum = "192.168.4.118";
 const debug = createDebug("node-wsv2:server");
 const port = normalizePort(process.env.PORT || "3000");
 
@@ -30,19 +30,39 @@ const port = normalizePort(process.env.PORT || "3000");
  */
 const server = http.createServer(app);
 const wss = new WebSocketServer({ server });
+const sockets = [];
 
+const data = [];
+let messageLog = { id: null, ip: null, message: null, room: null };
 wss.on("connection", (ws, req) => {
-  ws.location = Date.now();
-  console.log("방생성");
-  ws.on("message", (message) => {
-    console.log("메시지 받음");
-    ws.send(`received ${message}`);
-  });
+  sockets.push(ws);
+  wss["id"] = JSON.parse(ws.message.data.id);
+  console.log(wss["id"]);
+  console.log(ws["id"]);
+  console.log("채팅방 입장");
+  ws.location = "index";
+  let ip = req.socket.remoteAddress;
+  ip = ip.substr(7, ip.length);
 
-  req.url.startsWith("/chat/");
-  ws.on("message", (message) => {
-    ws.send(`received ${message}`);
-  });
+  if (req.url.startsWith("/chat/")) {
+    ws.onmessage = (message, isBinary) => {
+      const query = JSON.parse(message.data);
+      messageLog = {
+        id: query.id,
+        ip: ip,
+        message: query.text,
+        room: ws.location,
+        date: query.date,
+      };
+      data.push(messageLog);
+      console.log(data);
+      wss.clients.forEach((client) => {
+        if (client.readyState === WebSocket.OPEN) {
+          client.send(`${query.text} from ${ip}`, { binary: isBinary });
+        }
+      });
+    };
+  }
 
   ws.on("error", console.error);
 
@@ -50,14 +70,16 @@ wss.on("connection", (ws, req) => {
     ws.send("All glory to WebSockets!");
   });
 
-  ws.on("message", function message(msg) {
-    console.log(msg.toString());
+  // ws.on("message", function message(msg) {
+  // console.log(msg.toString());
+  // });
+  ws.on("close", function close(msg) {
+    console.log(`서버닫힘 사유 : ${msg}`);
   });
-
-  ws.onmessage = (e) => {
-    console.log("received: %s", e.data);
-    ws.send("메시지 받아라");
-  };
+  // ws.onmessage = (e) => {
+  // console.log("received: %s", e.data);
+  // ws.send("메시지 받아라");
+  // };
   // ws.send("something");
 });
 server.listen(port);

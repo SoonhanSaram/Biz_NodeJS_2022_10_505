@@ -3,8 +3,8 @@ extends ./index.pug
 block content
     script(src="/js/detail.js")
     div
-        div 
-            
+        ul(id="chat")
         label(for="message") 메시지
         input(id="message", placeholder="메시지를 입력해주세요...")
         button(type="button") 전송
+        button(type="button" id="exit") 나가기
