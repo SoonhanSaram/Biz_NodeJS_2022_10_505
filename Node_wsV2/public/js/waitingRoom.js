@@ -10,14 +10,6 @@ document.addEventListener("DOMContentLoaded", () => {
   Generator.addEventListener("click", (e) => {
     if (InputValue.value) {
       localStorage.setItem("ID", InputValue);
-      JOIN.dataset.id = InputValue;
-      console.log(JOIN.dataset);
-      JOIN.style.display = "inline-block";
-      JOIN.innerText = "입장";
-      ROOMNAME.innerText = InputValue;
-      tr.appendChild(ROOMNAME);
-      tr.appendChild(JOIN);
-      UL.appendChild(tr);
 
       // document.location.href = `/chat/${InputValue}`;
     } else {
@@ -50,5 +42,16 @@ document.addEventListener("DOMContentLoaded", () => {
 
   JOIN?.addEventListener("click", () => {
     document.location.href = `/chat/${JOIN.dataset.id}`;
+  });
+
+  ws.addEventListener("onopen", () => {
+    JOIN.dataset.id = InputValue;
+    console.log(JOIN.dataset);
+    JOIN.style.display = "inline-block";
+    JOIN.innerText = "입장";
+    ROOMNAME.innerText = InputValue;
+    tr.appendChild(ROOMNAME);
+    tr.appendChild(JOIN);
+    UL.appendChild(tr);
   });
 });

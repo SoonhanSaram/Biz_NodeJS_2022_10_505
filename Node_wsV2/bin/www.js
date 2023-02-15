@@ -5,6 +5,7 @@ import http from "http";
 import app from "./app.js";
 import createDebug from "debug";
 import WebSocket, { WebSocketServer } from "ws";
+import { v4 } from "uuid";
 // port number check
 const normalizePort = (val) => {
   const port = parseInt(val, 10);
@@ -20,7 +21,7 @@ const normalizePort = (val) => {
   }
   return false;
 };
-const portNum = "192.168.4.118";
+const portNum = { home: "192.168.0.5", academy: "192.168.4.118" };
 const debug = createDebug("node-wsv2:server");
 const port = normalizePort(process.env.PORT || "3000");
 
@@ -35,30 +36,36 @@ const sockets = [];
 const data = [];
 let messageLog = { id: null, ip: null, message: null, room: null };
 wss.on("connection", (ws, req) => {
-  sockets.push(ws);
-  wss["id"] = JSON.parse(ws.message.data.id);
-  console.log(wss["id"]);
-  console.log(ws["id"]);
-  console.log("채팅방 입장");
-  ws.location = "index";
-  let ip = req.socket.remoteAddress;
-  ip = ip.substr(7, ip.length);
+  const id = v4();
+  sockets[id] = ws;
+  console.log(sockets);
 
+  ws.send(JSON.stringify({ type: "id", id: id }));
   if (req.url.startsWith("/chat/")) {
     ws.onmessage = (message, isBinary) => {
       const query = JSON.parse(message.data);
       messageLog = {
         id: query.id,
-        ip: ip,
         message: query.text,
-        room: ws.location,
+        room: query.room,
         date: query.date,
+        des: "",
       };
       data.push(messageLog);
       console.log(data);
+
+      // 특정 유저와 메시지
+      // wss.clients.forEach((client) => {
+      // if (client.readyState === WebSocket.OPEN && client !== ws && client) {
+      // }
+      // });
+
+      // 서버 스트림 메시지
       wss.clients.forEach((client) => {
         if (client.readyState === WebSocket.OPEN) {
-          client.send(`${query.text} from ${ip}`, { binary: isBinary });
+          client.send(
+            JSON.stringify(`${query.id} : ${query.text}`, { binary: isBinary })
+          );
         }
       });
     };

@@ -4,11 +4,15 @@ document.addEventListener("DOMContentLoaded", () => {
   const chatLog = document.querySelector("#chat");
   const EXIT = document.querySelector("#exit");
   const KEY = localStorage.getItem("ID");
-  const ws = new WebSocket(`ws://192.168.4.118:3000/chat/${KEY}`);
+  const portNum = { home: "192.168.0.5", academy: "192.168.4.118" };
+
+  const ws = new WebSocket(`ws://${portNum.home}:3000/chat/${KEY}`);
   let log = [];
+  let roomID = "";
   let msg = {
-    id: "테스트1",
+    id: localStorage.getItem("ID"),
     text: InputValue.value,
+    room: roomID,
     date: Date.now(),
   };
 
@@ -23,20 +27,6 @@ document.addEventListener("DOMContentLoaded", () => {
     };
   });
 
-  InputValue.addEventListener("keydown", (e) => {
-    const message = e.target.value;
-    let msg = {
-      id: "테스트1",
-      text: message,
-      date: Date.now(),
-    };
-    if (e.keyCode === 13) {
-      ws.send(JSON.stringify(msg));
-
-      e.target.select();
-    }
-  });
-
   EXIT.addEventListener("click", () => {
     ws.close(3000, "playerOut");
     InputValue.setAttribute("readonly", true);
@@ -44,12 +34,35 @@ document.addEventListener("DOMContentLoaded", () => {
   });
   ws.addEventListener("message", (chat) => {
     chatLog.textContent = "";
+
+    serverData = JSON.parse(chat.data);
+    if (serverData.type === "id") {
+      roomID = serverData.id;
+      return false;
+    }
+
     log.push(chat.data);
+    console.log(log);
     log.map((chating) => {
       const Chat = document.createElement("li");
       Chat.style.listStyle = "none";
       Chat.innerText = chating;
       chatLog.appendChild(Chat);
     });
+  });
+
+  InputValue.addEventListener("keydown", (e) => {
+    const message = e.target.value;
+    let msg = {
+      id: localStorage.getItem("ID"),
+      text: message,
+      date: Date.now(),
+      room: roomID,
+    };
+    if (e.keyCode === 13) {
+      console.log(msg);
+      ws.send(JSON.stringify(msg));
+      e.target.select();
+    }
   });
 });
