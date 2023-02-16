@@ -1,57 +1,34 @@
-document.addEventListener("DOMContentLoaded", () => {
-  const Generator = document.querySelector("button");
-  let InputValue = document.querySelector("input");
-  const UL = document.querySelector("ul");
-  let tr = document.createElement("li");
-  let ROOMNAME = document.createElement("span");
-  let JOIN = document.createElement("button");
+const portNum = { home: "192.168.0.5", academy: "192.168.4.118" };
+const socket = new WebSocket(`ws://${portNum.academy}:3000`);
 
-  const ws = new WebSocket(`ws://192.168.4.118:3000/`);
-  Generator.addEventListener("click", (e) => {
-    if (InputValue.value) {
-      localStorage.setItem("ID", InputValue);
+socket.addEventListener("open", () => {
+  socket.onmessage = (event) => {
+    const data = JSON.parse(event.data);
+    console.log(data);
+    const { type, data: payload } = data;
 
-      // document.location.href = `/chat/${InputValue}`;
-    } else {
-      alert("아이디를 입력해주세요");
-      InputValue.focus();
+    if (type === "id") {
+      localStorage.setItem("id", payload);
+    } else if (type === "rooms") {
+      const roomList = document.querySelector("#room-list");
+      roomList.innerHTML = "";
+      payload.forEach((roomId) => {
+        const li = document.createElement("li");
+        const a = document.createElement("a");
+        a.textContent = roomId;
+        a.href = `/chat/${roomId}`;
+        li.appendChild(a);
+        roomList.appendChild(li);
+      });
     }
-  });
+  };
+});
 
-  InputValue.addEventListener("keydown", (e) => {
-    InputValue = e.target.value;
-    if (e.keyCode === 13) {
-      if (InputValue) {
-        localStorage.setItem("ID", InputValue);
-        JOIN.dataset.id = InputValue;
-        console.log(JOIN.dataset);
-        JOIN.style.display = "inline-block";
-        JOIN.innerText = "입장";
-        ROOMNAME.innerText = InputValue;
-        tr.appendChild(ROOMNAME);
-        tr.appendChild(JOIN);
-        UL.appendChild(tr);
-
-        //  document.location.href = `/chat/${InputValue}`;
-      } else {
-        alert("아이디를 입력해주세요");
-        e.currentTarget.select();
-      }
-    }
-  });
-
-  JOIN?.addEventListener("click", () => {
-    document.location.href = `/chat/${JOIN.dataset.id}`;
-  });
-
-  ws.addEventListener("onopen", () => {
-    JOIN.dataset.id = InputValue;
-    console.log(JOIN.dataset);
-    JOIN.style.display = "inline-block";
-    JOIN.innerText = "입장";
-    ROOMNAME.innerText = InputValue;
-    tr.appendChild(ROOMNAME);
-    tr.appendChild(JOIN);
-    UL.appendChild(tr);
-  });
+document.querySelector("form").addEventListener("submit", (event) => {
+  event.preventDefault();
+  const id = document.querySelector('input[name="id"]').value;
+  localStorage.setItem("id", id);
+  // server 에서 원하는 정보를 보내주기
+  // socket.send()
+  // window.location.href = "/chat";
 });

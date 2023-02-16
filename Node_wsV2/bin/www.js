@@ -31,64 +31,70 @@ const port = normalizePort(process.env.PORT || "3000");
  */
 const server = http.createServer(app);
 const wss = new WebSocketServer({ server });
-const sockets = [];
 
-const data = [];
-let messageLog = { id: null, ip: null, message: null, room: null };
+const clients = new Map();
+
+const rooms = {};
+
+// When a client connects, add them to the Map
 wss.on("connection", (ws, req) => {
   const id = v4();
-  sockets[id] = ws;
-  console.log(sockets);
+  clients.set(id, ws);
 
-  ws.send(JSON.stringify({ type: "id", id: id }));
-  if (req.url.startsWith("/chat/")) {
-    ws.onmessage = (message, isBinary) => {
-      const query = JSON.parse(message.data);
-      messageLog = {
-        id: query.id,
-        message: query.text,
-        room: query.room,
-        date: query.date,
-        des: "",
-      };
-      data.push(messageLog);
-      console.log(data);
+  // Send the client their ID
+  ws.send(JSON.stringify({ type: "id", data: id }));
 
-      // 특정 유저와 메시지
-      // wss.clients.forEach((client) => {
-      // if (client.readyState === WebSocket.OPEN && client !== ws && client) {
-      // }
-      // });
+  if (req.url.startsWith("/rooms/")) {
+    //onmessage 로 client side에서 보내는 정보를 받아
+    //rooms 정보로 바꿔 보내주기
+    ws.on("message", (message) => {
+      const data = JSON.parse(message);
 
-      // 서버 스트림 메시지
-      wss.clients.forEach((client) => {
-        if (client.readyState === WebSocket.OPEN) {
-          client.send(
-            JSON.stringify(`${query.id} : ${query.text}`, { binary: isBinary })
-          );
-        }
-      });
-    };
+      // Send the list of available rooms to the client
+      ws.send(JSON.stringify({ type: "rooms", data: Object.keys(rooms) }));
+    });
   }
 
-  ws.on("error", console.error);
+  // When a client sends a message, broadcast it to all other clients in the same room
+  ws.on("message", (message) => {
+    const data = JSON.parse(message);
+    const { type, sender, text, roomId } = data;
 
-  ws.on("open", function open() {
-    ws.send("All glory to WebSockets!");
+    if (type === "message") {
+      const room = rooms[roomId];
+      if (room) {
+        room.forEach((client) => {
+          if (client !== ws && client.readyState === WebSocket.OPEN) {
+            client.send(JSON.stringify({ type, sender, text, roomId }));
+          }
+        });
+      }
+    }
   });
 
-  // ws.on("message", function message(msg) {
-  // console.log(msg.toString());
-  // });
-  ws.on("close", function close(msg) {
-    console.log(`서버닫힘 사유 : ${msg}`);
+  // When a client joins a room, add them to the list of clients in that room
+  ws.on("join", (roomId) => {
+    const room = rooms[roomId];
+    if (room) {
+      room.push(ws);
+    } else {
+      rooms[roomId] = [ws];
+    }
   });
-  // ws.onmessage = (e) => {
-  // console.log("received: %s", e.data);
-  // ws.send("메시지 받아라");
-  // };
-  // ws.send("something");
+
+  // When a client disconnects, remove them from the Map and from any rooms they were in
+  ws.on("close", () => {
+    clients.delete(id);
+    Object.keys(rooms).forEach((roomId) => {
+      const room = rooms[roomId];
+      const index = room.indexOf(ws);
+      if (index !== -1) {
+        room.splice(index, 1);
+      }
+    });
+  });
 });
+
 server.listen(port);
 
 // Event listener for HTTP server "error" event.

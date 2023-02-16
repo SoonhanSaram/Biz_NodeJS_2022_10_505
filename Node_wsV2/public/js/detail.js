@@ -6,7 +6,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const KEY = localStorage.getItem("ID");
   const portNum = { home: "192.168.0.5", academy: "192.168.4.118" };
 
-  const ws = new WebSocket(`ws://${portNum.home}:3000/chat/${KEY}`);
+  const ws = new WebSocket(`ws://${portNum.academy}:3000/chat/${KEY}`);
   let log = [];
   let roomID = "";
   let msg = {

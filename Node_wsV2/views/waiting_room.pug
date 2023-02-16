@@ -1,11 +1,11 @@
-extends ./index.pug
+extends ./layout.pug
 
 block content
-    script(src="/js/waitingRoom.js")
-    div
-        ul 
-            
-        label(for="id") ID 생성
-        input(id="id", placeholder="ID를 입력해주세요...")
-        button(type="button") ID & 방생성
+    h1 Chat App
+    h2 Room List
+    ul#room-list
+    form(action='/chat' method='post')
+      input(type='text' name='id' placeholder='Enter your ID')
+      button(type='submit') Join Room
+    script(src='/js/waitingRoom.js')
 
