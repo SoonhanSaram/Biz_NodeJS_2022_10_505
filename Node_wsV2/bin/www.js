@@ -34,45 +34,14 @@ const wss = new WebSocketServer({ server });
 
 const clients = new Map();
 
-const rooms = {};
+const rooms = [];
 
 // When a client connects, add them to the Map
 wss.on("connection", (ws, req) => {
   const id = v4();
   clients.set(id, ws);
-
   // Send the client their ID
-  ws.send(JSON.stringify({ type: "id", data: id }));
 
-  if (req.url.startsWith("/rooms/")) {
-    //onmessage 로 client side에서 보내는 정보를 받아
-    //rooms 정보로 바꿔 보내주기
-    ws.on("message", (message) => {
-      const data = JSON.parse(message);
-
-      // Send the list of available rooms to the client
-      ws.send(JSON.stringify({ type: "rooms", data: Object.keys(rooms) }));
-    });
-  }
-
-  // When a client sends a message, broadcast it to all other clients in the same room
-  ws.on("message", (message) => {
-    const data = JSON.parse(message);
-    const { type, sender, text, roomId } = data;
-
-    if (type === "message") {
-      const room = rooms[roomId];
-      if (room) {
-        room.forEach((client) => {
-          if (client !== ws && client.readyState === WebSocket.OPEN) {
-            client.send(JSON.stringify({ type, sender, text, roomId }));
-          }
-        });
-      }
-    }
-  });
-
-  // When a client joins a room, add them to the list of clients in that room
   ws.on("join", (roomId) => {
     const room = rooms[roomId];
     if (room) {
@@ -85,14 +54,57 @@ wss.on("connection", (ws, req) => {
   // When a client disconnects, remove them from the Map and from any rooms they were in
   ws.on("close", () => {
     clients.delete(id);
-    Object.keys(rooms).forEach((roomId) => {
-      const room = rooms[roomId];
-      const index = room.indexOf(ws);
-      if (index !== -1) {
-        room.splice(index, 1);
-      }
-    });
   });
+
+  if (req.url.startsWith("/rooms")) {
+    clients.set(ws, "rooms");
+    ws.send(JSON.stringify({ type: "id", data: id }));
+    ws.on("message", (message) => {
+      const data = JSON.parse(message);
+      rooms[id] = data.roomId;
+      rooms.push(data);
+      // Send the list of available rooms to the client
+      wss.clients.forEach((client) => {
+        if (
+          client.readyState === WebSocket.OPEN &&
+          clients.get(client) === "rooms"
+        ) {
+          client.send(JSON.stringify({ type: "rooms", data: rooms }));
+        }
+      });
+    });
+  } else if (req.url.startsWith("/chat/")) {
+    ws.on("message", (message) => {
+      const data = JSON.parse(message);
+
+      const { type, id, text, roomId } = data;
+      console.log(type);
+      clients[id] = id;
+      clients.set(ws, roomId);
+      const roomClients = Array.from(clients.entries())
+        .filter(([client, clientRoomid]) => clientRoomid === roomId)
+        .map(([client, clientRoomid]) => client);
+
+      if (type === "enter") {
+        console.log("엔터");
+        roomClients.forEach((client) => {
+          if (client.readyState === WebSocket.OPEN) {
+            client.send(JSON.stringify({ type, username: clients[id] }));
+          }
+        });
+      }
+
+      if (type === "message") {
+        console.log("메시지");
+        roomClients.forEach((client) => {
+          if (client.readyState === WebSocket.OPEN) {
+            client.send(JSON.stringify({ type, id, text, roomId }));
+          }
+        });
+      }
+      ws.on("close", () => {});
+    });
+  }
 });
 
 server.listen(port);
