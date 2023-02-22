@@ -33,78 +33,122 @@ const server = http.createServer(app);
 const wss = new WebSocketServer({ server });
 
 const clients = new Map();
-
+const clientList = [];
 const rooms = [];
+
+function heartbeat() {
+  this.isAlive = true;
+}
+const joinFunc = (id, data) => {
+  clients.set("roomid", data);
+  const users = clientList?.map((client) => client[id]);
+  wss.clients.forEach((client) => {
+    if (client && client.roomid === data?.roomId) {
+      client.send(JSON.stringify({ type: "users", users }));
+    }
+    console.log(users);
+  });
+};
 
 // When a client connects, add them to the Map
 wss.on("connection", (ws, req) => {
   const id = v4();
-  clients.set(id, ws);
-  // Send the client their ID
 
-  ws.on("join", (roomId) => {
-    const room = rooms[roomId];
-    if (room) {
-      room.push(ws);
-    } else {
-      rooms[roomId] = [ws];
+  clients.set(id, { client: ws });
+
+  ws.on("message", (message) => {
+    let data = JSON.parse(message);
+    console.log(data);
+    if (data.type === "id") {
+      clients[id] = data.id;
+      clientList.push(clients);
+      data = "";
+    }
+    if (data.type === "roomId") {
+      rooms.push(data.roomId);
+      if (rooms !== null) {
+        wss.clients.forEach((client) => {
+          client.send(JSON.stringify(rooms));
+        });
+      }
+      data = "";
+    }
+    if (data.type === "roomList") {
+      wss.clients.forEach((client) => {
+        client.send(JSON.stringify(rooms));
+      });
+    }
+    if (data.type === "join") {
+      joinFunc(id, data);
+    }
+    if (data.type === "chat") {
+      wss.clients.forEach((client) => {
+        if (client && client.roomid === data.roomId) {
+          const payload = { ...data, id: clients[id] };
+          client.send(JSON.stringify(payload));
+        }
+      });
+    }
+    if (data.type === "exit") {
+      clients.delete("roomid");
+      clientList.push(clients);
+      joinFunc(id, data);
     }
   });
 
-  // When a client disconnects, remove them from the Map and from any rooms they were in
-  ws.on("close", () => {
-    clients.delete(id);
-  });
+  // if (req.url.startsWith("/rooms")) {
+  //   clients.set(ws, "rooms");
+  //   ws.send(JSON.stringify({ type: "id", data: id }));
+  //   ws.on("message", (message) => {
+  //     const data = JSON.parse(message);
+  //     rooms[id] = data.roomId;
+  //     rooms.push(data);
+  //     // Send the list of available rooms to the client
+  //     wss.clients.forEach((client) => {
+  //       if (
+  //         client.readyState === WebSocket.OPEN &&
+  //         clients.get(client) === "rooms"
+  //       ) {
+  //         client.send(JSON.stringify({ type: "rooms", data: rooms }));
+  //       }
+  //     });
+  //   });
+  // } else if (req.url.startsWith("/chat/")) {
+  //   ws.send(JSON.stringify({ type: "list", clientList }));
+  //   ws.on("message", (message) => {
+  //     const data = JSON.parse(message);
 
-  if (req.url.startsWith("/rooms")) {
-    clients.set(ws, "rooms");
-    ws.send(JSON.stringify({ type: "id", data: id }));
-    ws.on("message", (message) => {
-      const data = JSON.parse(message);
-      rooms[id] = data.roomId;
-      rooms.push(data);
-      // Send the list of available rooms to the client
-      wss.clients.forEach((client) => {
-        if (
-          client.readyState === WebSocket.OPEN &&
-          clients.get(client) === "rooms"
-        ) {
-          client.send(JSON.stringify({ type: "rooms", data: rooms }));
-        }
-      });
-    });
-  } else if (req.url.startsWith("/chat/")) {
-    ws.on("message", (message) => {
-      const data = JSON.parse(message);
+  //     const { type, id, text, roomId } = data;
+  //     // console.log(type);
+  //     clients[id] = id;
+  //     clients.set(ws, roomId);
+  //     const roomClients = Array.from(clients.entries())
+  //       .filter(([client, clientRoomid]) => clientRoomid === roomId)
+  //       .map(([client, clientRoomid]) => client);
 
-      const { type, id, text, roomId } = data;
-      console.log(type);
-      clients[id] = id;
-      clients.set(ws, roomId);
-      const roomClients = Array.from(clients.entries())
-        .filter(([client, clientRoomid]) => clientRoomid === roomId)
-        .map(([client, clientRoomid]) => client);
+  //     if (type === "enter") {
+  //       // console.log("엔터");
+  //       roomClients.forEach((client) => {
+  //         if (client.readyState === WebSocket.OPEN) {
+  //           client.send(JSON.stringify({ type, username: clients[id] }));
+  //         }
+  //       });
+  //     }
 
-      if (type === "enter") {
-        console.log("엔터");
-        roomClients.forEach((client) => {
-          if (client.readyState === WebSocket.OPEN) {
-            client.send(JSON.stringify({ type, username: clients[id] }));
-          }
-        });
-      }
-
-      if (type === "message") {
-        console.log("메시지");
-        roomClients.forEach((client) => {
-          if (client.readyState === WebSocket.OPEN) {
-            client.send(JSON.stringify({ type, id, text, roomId }));
-          }
-        });
-      }
-      ws.on("close", () => {});
-    });
-  }
+  //     if (type === "message") {
+  //       console.log("메시지");
+  //       roomClients.forEach((client) => {
+  //         if (client.readyState === WebSocket.OPEN) {
+  //           client.send(JSON.stringify({ type, id, text, roomId }));
+  //         }
+  //       });
+  //     }
+  //     ws.on("close", () => {
+  //       // console.log(clients);
+  //       console.log(clients[id]);
+  //     });
+  //   });
+  // }
 });
 
 server.listen(port);
@@ -121,11 +165,9 @@ server.on("error", (error) => {
     case "EACCES":
       console.error(bind + " requires elevated privileges");
       process.exit(1);
-      break;
     case "EADDRINUSE":
       console.error(bind + " is already in use");
       process.exit(1);
-      break;
     default:
       throw error;
   }

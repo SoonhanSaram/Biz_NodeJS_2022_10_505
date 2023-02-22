@@ -1,5 +1,5 @@
 const portNum = { home: "192.168.0.5", academy: "192.168.4.118" };
-const socket = new WebSocket(`ws://${portNum.home}:3000/rooms`);
+const socket = new WebSocket(`ws://${portNum.academy}:3000/rooms`);
 
 socket.addEventListener("open", () => {
   socket.onmessage = (event) => {
