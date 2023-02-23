@@ -6,6 +6,7 @@ const ChatRoom = () => {
   const [message, setMessage] = useState("");
   const [chat, setChat] = useState([]);
   const [users, setUsers] = useState([]);
+  const [exitUser, setExituser] = useState();
   const change = (e) => setMessage(e.target.value);
   const { socket, roomId } = useWSContext();
   const inputRef = useRef();
@@ -25,17 +26,34 @@ const ChatRoom = () => {
       console.log(data);
       if (data.type === "users") {
         setUsers((users) => [...users, ...data.users]);
-        console.log(users);
         return false;
+      } else if (data.type === "exitMessage") {
+        console.log("object");
+        setExituser((prevExitUser) => {
+          // 이전 값과 비교하여 변경된 부분만 업데이트
+          const newExitUser = [...prevExitUser];
+          const index = newExitUser.indexOf(data.user);
+          if (index >= 0) {
+            newExitUser.splice(index, 1);
+          }
+          return newExitUser;
+        });
       } else setChat((chat) => [...chat, data]);
     };
   }, [socket]);
+  const exitMessageView = exitUser?.map((user, index) => {
+    return (
+      <div key={index}>
+        <span>{user}</span>
+      </div>
+    );
+  });
 
   const usersView =
     users.length > 0
       ? users.map((user, index) => {
           return (
-            <span>
+            <span key={index}>
               {index + 1}. {user}
             </span>
           );
@@ -52,8 +70,9 @@ const ChatRoom = () => {
     );
   });
   const exitHandler = () => {
-    socket.send(JSON.stringify({ type: "exit" }));
+    socket.send(JSON.stringify({ type: "exit", roomId: roomId }));
   };
+
   return (
     <div className="flex max-w-xl m-auto">
       <div className="flex flex-col min-w-fit text-ellipsis min-h-[40%]">
@@ -63,6 +82,7 @@ const ChatRoom = () => {
       <div className="flex flex-col w-full m-auto ml-6">
         <div className="text-left w-full min-h-[32rem] max-h-[32rem] overflow-y-scroll">
           {messageView}
+          {exitMessageView}
         </div>
         <input
           ref={inputRef}

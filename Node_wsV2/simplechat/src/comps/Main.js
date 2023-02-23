@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useWSContext } from "../context/WSProvider";
+const IP = { home: "192.168.0.5", academy: "19.168.4.118" };
 const Main = () => {
   const navigate = useNavigate();
   const { inputValue, setInputValue, socket, setSocket } = useWSContext();
@@ -14,7 +15,7 @@ const Main = () => {
   const Join = (e) => {
     console.log(e.key);
     if (e.key === "Enter") {
-      const ws = new WebSocket("ws://192.168.4.118:3000/");
+      const ws = new WebSocket(`ws://${IP.home}:3000/`);
       setSocket(ws);
     }
   };

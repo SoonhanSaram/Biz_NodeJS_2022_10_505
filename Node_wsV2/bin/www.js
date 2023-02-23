@@ -39,29 +39,30 @@ const rooms = [];
 function heartbeat() {
   this.isAlive = true;
 }
-const joinFunc = (id, data) => {
-  clients.set("roomid", data);
+const joinFunc = (ws, id, data) => {
+  console.log(data.room);
+  clients.set(id, { client: ws, room: data.room });
+  console.log(clients);
   const users = clientList?.map((client) => client[id]);
   wss.clients.forEach((client) => {
     if (client && client.roomid === data?.roomId) {
       client.send(JSON.stringify({ type: "users", users }));
     }
-    console.log(users);
   });
 };
 
 // When a client connects, add them to the Map
 wss.on("connection", (ws, req) => {
-  const id = v4();
-
-  clients.set(id, { client: ws });
-
   ws.on("message", (message) => {
+    let id = "";
+
     let data = JSON.parse(message);
     console.log(data);
     if (data.type === "id") {
-      clients[id] = data.id;
+      id = data.id;
+      clients.set(id, { client: ws, room: "" });
       clientList.push(clients);
+      console.log(clientList);
       data = "";
     }
     if (data.type === "roomId") {
@@ -71,7 +72,6 @@ wss.on("connection", (ws, req) => {
           client.send(JSON.stringify(rooms));
         });
       }
-      data = "";
     }
     if (data.type === "roomList") {
       wss.clients.forEach((client) => {
@@ -79,7 +79,7 @@ wss.on("connection", (ws, req) => {
       });
     }
     if (data.type === "join") {
-      joinFunc(id, data);
+      joinFunc(id, ws, data);
     }
     if (data.type === "chat") {
       wss.clients.forEach((client) => {
@@ -90,8 +90,20 @@ wss.on("connection", (ws, req) => {
       });
     }
     if (data.type === "exit") {
-      clients.delete("roomid");
-      clientList.push(clients);
+      clients.set(id, { roomId: data.roomId });
+      wss.clients.forEach((client) => {
+        if (client && client.roomid === data?.roomId) {
+          client.send(
+            JSON.stringify({ type: "exitMessage", user: clients[id] })
+          );
+        }
+      });
+      clients.set("roomid", null);
+
+      wss.clients.forEach((client) => {
+        if (client.roomid === data.roomId) return client;
+      });
+
       joinFunc(id, data);
     }
   });
