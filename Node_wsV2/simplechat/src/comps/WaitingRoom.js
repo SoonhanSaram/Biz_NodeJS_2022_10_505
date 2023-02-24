@@ -3,18 +3,20 @@ import { useWSContext } from "../context/WSProvider";
 import { useNavigate } from "react-router-dom";
 const WaitingRoom = () => {
   const navigate = useNavigate();
-  const { socket, setSocket, roomId, setRoomId, users, setUsers } =
+  const { socket, setSocket, roomId, setRoomId, users, setUsers, userId } =
     useWSContext();
   const [inputValue, setInputValue] = useState("");
   const [roomList, setRoomList] = useState([]);
   const [refresh, setRefresh] = useState(false);
   const inputRef = useRef();
   const onClick = () => {
-    socket.send(JSON.stringify({ type: "roomId", roomId: inputValue }));
+    if (inputValue.length <= 0) alert("방이름을 입력해주세요");
+    else if (inputValue.length > 0)
+      socket.send(JSON.stringify({ type: "roomId", roomId: inputValue }));
   };
 
   const clickHandler = (room) => {
-    socket.send(JSON.stringify({ type: "join", room }));
+    socket.send(JSON.stringify({ type: "join", room: room, id: userId }));
     setRoomId(room);
     navigate(`/chat/${room}`);
   };

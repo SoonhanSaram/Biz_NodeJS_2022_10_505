@@ -39,30 +39,38 @@ const rooms = [];
 function heartbeat() {
   this.isAlive = true;
 }
-const joinFunc = (ws, id, data) => {
-  console.log(data.room);
-  clients.set(id, { client: ws, room: data.room });
-  console.log(clients);
-  const users = clientList?.map((client) => client[id]);
-  wss.clients.forEach((client) => {
-    if (client && client.roomid === data?.roomId) {
-      client.send(JSON.stringify({ type: "users", users }));
+const joinFunc = (ws, data) => {
+  clients.set(data.id, { client: ws, room: data.room });
+
+  let users = [];
+  for (const [id, { client, room }] of clients) {
+    if (room === data.room && client.readyState === WebSocket.OPEN) {
+      users.push(id);
+    }
+  }
+
+  clients.forEach(({ client, room }) => {
+    if (client.readyState === WebSocket.OPEN && room === data.room) {
+      client.send(
+        JSON.stringify({
+          type: `users${data.room}`,
+          userid: data.id,
+          users: users,
+        })
+      );
     }
   });
+  users = [];
+  // console.log(users);
 };
 
 // When a client connects, add them to the Map
 wss.on("connection", (ws, req) => {
   ws.on("message", (message) => {
-    let id = "";
-
     let data = JSON.parse(message);
-    console.log(data);
     if (data.type === "id") {
-      id = data.id;
-      clients.set(id, { client: ws, room: "" });
-      clientList.push(clients);
-      console.log(clientList);
+      clients.set(data.id, { client: ws, room: "" });
+
       data = "";
     }
     if (data.type === "roomId") {
@@ -79,32 +87,43 @@ wss.on("connection", (ws, req) => {
       });
     }
     if (data.type === "join") {
-      joinFunc(id, ws, data);
+      joinFunc(ws, data);
     }
     if (data.type === "chat") {
-      wss.clients.forEach((client) => {
-        if (client && client.roomid === data.roomId) {
-          const payload = { ...data, id: clients[id] };
-          client.send(JSON.stringify(payload));
+      console.log("object");
+      clients.forEach(({ client, room }, id) => {
+        console.log(id);
+        if (client && room === data.room) {
+          const payload = { ...data };
+          client.send(JSON.stringify({ type: "chat", payload }));
         }
       });
     }
+
     if (data.type === "exit") {
-      clients.set(id, { roomId: data.roomId });
-      wss.clients.forEach((client) => {
-        if (client && client.roomid === data?.roomId) {
+      clients.forEach(({ client, room }) => {
+        if (client && room === data?.room) {
           client.send(
-            JSON.stringify({ type: "exitMessage", user: clients[id] })
+            JSON.stringify({ type: `exitMessage${data.room}`, user: data.id })
           );
         }
       });
-      clients.set("roomid", null);
-
-      wss.clients.forEach((client) => {
-        if (client.roomid === data.roomId) return client;
+      clients.set(data.id, { client: ws, room: null });
+      let users = [];
+      for (const [id, { client, room }] of clients) {
+        if (room === data.room && client.readyState === WebSocket.OPEN) {
+          users.push(id);
+        }
+      }
+      console.log(users);
+      clients.forEach(({ client, room }) => {
+        if (client.readyState === WebSocket.OPEN && room === data.room) {
+          client.send(
+            JSON.stringify({ type: `exitMessage${data.room}`, users: users })
+          );
+        }
       });
-
-      joinFunc(id, data);
+      users = [];
     }
   });
 

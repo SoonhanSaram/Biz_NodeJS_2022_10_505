@@ -1,32 +1,35 @@
 import { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useWSContext } from "../context/WSProvider";
-const IP = { home: "192.168.0.5", academy: "19.168.4.118" };
+const IP = { home: "192.168.0.5", academy: "192.168.4.118" };
 const Main = () => {
   const navigate = useNavigate();
-  const { inputValue, setInputValue, socket, setSocket } = useWSContext();
+  const { userId, setUserId, socket, setSocket } = useWSContext();
   const inputRef = useRef();
   const onChange = (e) => {
-    setInputValue(e.target.value);
+    setUserId(e.target.value);
   };
   const onClick = (e) => {
     inputRef.current.focus();
   };
-  const Join = (e) => {
-    console.log(e.key);
-    if (e.key === "Enter") {
-      const ws = new WebSocket(`ws://${IP.home}:3000/`);
-      setSocket(ws);
-    }
-  };
   useEffect(() => {
     if (socket) {
       socket.onopen = () => {
-        socket.send(JSON.stringify({ type: "id", id: inputValue }));
+        socket.send(JSON.stringify({ type: "id", id: userId }));
         navigate("/rooms");
       };
     }
   }, [socket]);
+  const Join = (e) => {
+    if (e.key === "Enter") {
+      const regex = /^[ㄱ-ㅎ|가-힣|a-z|A-Z|0-9|]+$/;
+      if (regex.test(userId) && userId.length >= 5) {
+        const ws = new WebSocket(`ws://${IP.academy}:3000/`);
+        setSocket(ws);
+      } else alert("특수문자를 제외한 아이디로 5글자 이상으로 만들어주세요");
+    }
+  };
+
   return (
     <div className="container mx-auto mt-12 flex flex-col h-96 max-w-[15%] border-2 border-black bg-slate-700">
       <span className="mx-auto mb-12 text-white text-5xl ">SimpleChat</span>
@@ -38,7 +41,7 @@ const Main = () => {
           </label>
           <input
             className="mt-12 ring-1 "
-            value={inputValue}
+            value={userId}
             onChange={onChange}
             onKeyDown={Join}
             ref={inputRef}
